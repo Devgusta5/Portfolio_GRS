@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
 import { COMMAND_DECK_LINES, IMPACT_METRICS, LAB_MODES } from "@/data/experience";
 
 export function CommandDeck() {
+  const [orbitRadius, setOrbitRadius] = useState(190);
+
+  useEffect(() => {
+    function handleResize() {
+      setOrbitRadius(window.innerWidth < 640 ? 130 : 190);
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[480px] md:max-w-[520px]">
       <div className="absolute inset-0 rounded-full border border-[var(--border)] bg-[radial-gradient(circle_at_center,var(--accent-glow-soft),transparent_58%)]" />
@@ -10,9 +22,9 @@ export function CommandDeck() {
       {LAB_MODES.map((mode, index) => (
         <div
           key={mode}
-          className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border-2)] bg-[var(--bg)] text-[9px] font-semibold uppercase tracking-wide text-[var(--accent)] shadow-[0_0_24px_var(--accent-glow)]"
+          className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border-2)] bg-[var(--bg)] text-[8px] font-semibold uppercase tracking-wide text-[var(--accent)] shadow-[0_0_24px_var(--accent-glow)] sm:h-12 sm:w-12 sm:text-[9px]"
           style={{
-            transform: `translate(-50%, -50%) rotate(${index * 90}deg) translateY(-190px) rotate(-${index * 90}deg)`,
+            transform: `translate(-50%, -50%) rotate(${index * 90}deg) translateY(-${orbitRadius}px) rotate(-${index * 90}deg)`,
           }}
         >
           {mode.slice(0, 3)}
