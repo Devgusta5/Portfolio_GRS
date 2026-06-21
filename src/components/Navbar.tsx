@@ -169,24 +169,28 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    document.body.style.paddingBottom = '72px';
-    return () => { document.body.style.paddingBottom = ''; };
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) document.body.style.paddingBottom = '80px';
+    const handleResize = () => {
+      document.body.style.paddingBottom = window.innerWidth < 768 ? '80px' : '';
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      document.body.style.paddingBottom = '';
+    };
   }, []);
 
   return (
     <>
-      {/* Desktop: Floating glass sidebar */}
+      {/* Floating glass sidebar — desktop */}
       <aside className="fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-1.5 rounded-2xl border border-[var(--border)]/80 bg-[var(--glass)] p-2.5 shadow-2xl backdrop-blur-2xl md:flex">
-        {/* Liquid glass beam */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
           <div className="absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] opacity-40 blur-3xl [animation:beam-drift_8s_ease-in-out_infinite]" />
         </div>
-
-        {/* Subtle border glow */}
         <div className="pointer-events-none absolute -inset-px rounded-2xl opacity-30 blur-sm [background:var(--accent)]" />
 
         <div className="relative flex flex-col items-center gap-1.5">
-          {/* Logo */}
           <a
             href="#top"
             onClick={() => setActiveSection('#top')}
@@ -194,10 +198,7 @@ export function Navbar() {
           >
             GRS
           </a>
-
           <div className="h-px w-5 bg-[var(--border-2)]" />
-
-          {/* Nav items */}
           {NAV_LINKS.map((link, i) => (
             <DockItem
               key={link.href}
@@ -208,52 +209,49 @@ export function Navbar() {
               isActive={activeSection === link.href}
             />
           ))}
-
           <div className="h-px w-5 bg-[var(--border-2)]" />
-
-          {/* Theme */}
           <ThemeDot />
         </div>
       </aside>
 
-      {/* Mobile: Floating theme button */}
-      <div className="fixed right-4 top-4 z-50 md:hidden">
-        <ThemeDot />
-      </div>
+      {/* Floating dock — mobile */}
+      <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 md:hidden">
+        <div className="relative rounded-2xl border border-[var(--border)]/80 bg-[var(--glass)] px-3 py-2 shadow-2xl backdrop-blur-2xl">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+            <div className="absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] opacity-30 blur-3xl [animation:beam-drift_8s_ease-in-out_infinite]" />
+          </div>
+          <div className="pointer-events-none absolute -inset-px rounded-2xl opacity-20 blur-sm [background:var(--accent)]" />
 
-      {/* Mobile: Bottom dock */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)]/80 bg-[var(--glass)] shadow-2xl backdrop-blur-2xl md:hidden">
-        <div className="absolute inset-0 border-t border-[var(--accent)]/8" />
-        <div className="relative flex items-center justify-around px-2 py-1.5">
-          {NAV_LINKS.map((link, i) => {
-            const Icon = link.icon;
-            const isActive = activeSection === link.href;
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`relative flex flex-col items-center gap-0.5 rounded-xl px-2.5 py-1.5 transition-colors ${
-                  isActive ? 'text-[var(--accent)]' : 'text-[var(--text-3)]'
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="mobile-active"
-                    className="absolute inset-0 rounded-xl bg-[var(--accent-glow-soft)]"
-                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                  />
-                )}
-                <span className="relative">
-                  <Icon size={18} />
-                </span>
-                <span className="relative text-[8px] font-medium leading-none">
-                  {i === 0 ? link.label : link.label.slice(0, 4)}
-                </span>
-              </a>
-            );
-          })}
+          <div className="relative flex items-center gap-1.5">
+            {NAV_LINKS.map((link, i) => {
+              const Icon = link.icon;
+              const isActive = activeSection === link.href;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`relative flex items-center justify-center rounded-xl p-2 transition-colors ${
+                    isActive ? 'text-[var(--accent)]' : 'text-[var(--text-3)]'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="mobile-glow"
+                      className="absolute inset-0 rounded-xl border border-[var(--accent)]/35 bg-[var(--accent-glow-soft)] shadow-[0_0_12px_var(--accent-glow)]"
+                      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                    />
+                  )}
+                  <span className="relative">
+                    <Icon size={18} />
+                  </span>
+                </a>
+              );
+            })}
+            <div className="mx-1 h-5 w-px bg-[var(--border-2)]" />
+            <ThemeDot />
+          </div>
         </div>
-      </nav>
+      </div>
     </>
   );
 }
