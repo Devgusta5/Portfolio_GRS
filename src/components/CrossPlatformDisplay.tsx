@@ -27,7 +27,7 @@ export function CrossPlatformDisplay() {
             onClick={() => setTab("web")}
             className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
               tab === "web"
-                ? "bg-[var(--accent)] text-black"
+                ? "bg-[var(--accent)] text-[var(--accent-contrast)]"
                 : "border border-[var(--border)] text-[var(--text-2)]"
             }`}
           >
@@ -38,7 +38,7 @@ export function CrossPlatformDisplay() {
             onClick={() => setTab("mobile")}
             className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
               tab === "mobile"
-                ? "bg-[var(--accent)] text-black"
+                ? "bg-[var(--accent)] text-[var(--accent-contrast)]"
                 : "border border-[var(--border)] text-[var(--text-2)]"
             }`}
           >

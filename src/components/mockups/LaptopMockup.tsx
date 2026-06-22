@@ -6,9 +6,9 @@ export function LaptopMockup() {
       <div className="rounded-t-xl border border-[var(--border-2)] bg-[var(--bg-3)] p-2 shadow-2xl">
         <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]">
           <div className="flex items-center gap-1.5 border-b border-[var(--border)] bg-[var(--bg-2)] px-3 py-2">
-            <span className="h-2 w-2 rounded-full bg-red-400/70" />
-            <span className="h-2 w-2 rounded-full bg-yellow-400/70" />
-            <span className="h-2 w-2 rounded-full bg-green-400/70" />
+            <span className="h-2 w-2 rounded-full bg-[var(--mockup-dot)]" />
+            <span className="h-2 w-2 rounded-full bg-[var(--mockup-dot)]" />
+            <span className="h-2 w-2 rounded-full bg-[var(--mockup-dot)]" />
             <span className="ml-3 truncate text-[10px] text-[var(--text-3)]">
               app.etecnotes.com/dashboard
             </span>

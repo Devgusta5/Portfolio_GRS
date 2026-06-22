@@ -22,6 +22,8 @@
   --card-bg: rgba(255, 255, 255, 0.03);
   --card-hover: rgba(255, 255, 255, 0.06);
   --glass: rgba(0, 0, 0, 0.6);
+  --accent-contrast: #000000;
+  --mockup-dot: rgba(255, 255, 255, 0.2);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -70,6 +72,8 @@
   --card-bg: rgba(0, 0, 0, 0.02);
   --card-hover: rgba(0, 0, 0, 0.04);
   --glass: rgba(248, 249, 250, 0.8);
+  --accent-contrast: #ffffff;
+  --mockup-dot: rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="green"] {
@@ -88,6 +92,8 @@
   --card-bg: rgba(16, 185, 129, 0.03);
   --card-hover: rgba(16, 185, 129, 0.06);
   --glass: rgba(3, 7, 18, 0.7);
+  --accent-contrast: #000000;
+  --mockup-dot: rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="purple"] {
@@ -106,6 +112,8 @@
   --card-bg: rgba(139, 92, 246, 0.04);
   --card-hover: rgba(139, 92, 246, 0.08);
   --glass: rgba(12, 10, 9, 0.7);
+  --accent-contrast: #000000;
+  --mockup-dot: rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="cosmic"] {
@@ -124,6 +132,8 @@
   --card-bg: rgba(59, 130, 246, 0.04);
   --card-hover: rgba(59, 130, 246, 0.08);
   --glass: rgba(2, 6, 23, 0.7);
+  --accent-contrast: #000000;
+  --mockup-dot: rgba(255, 255, 255, 0.2);
 }
 
 @theme inline {
@@ -418,7 +428,8 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--bg);
+    color: var(--text);
   }
   html {
     @apply font-sans;

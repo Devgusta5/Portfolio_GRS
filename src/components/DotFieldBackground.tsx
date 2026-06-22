@@ -2,66 +2,64 @@
 
 import { useEffect, useState } from "react";
 import DotField from "./DotField";
+import { useTheme } from "@/context/ThemeContext";
 
-interface RGB {
-  r: number;
-  g: number;
-  b: number;
+const FALLBACK_RGB = { r: 6, g: 182, b: 212 };
+
+const DOT_CONFIG = {
+  mobile: { dotRadius: 1, dotSpacing: 24, cursorRadius: 0 },
+  desktop: { dotRadius: 1.5, dotSpacing: 14, cursorRadius: 500 },
+} as const;
+
+function readAccentGlow() {
+  try {
+    const raw = getComputedStyle(document.documentElement).getPropertyValue("--accent-glow").trim();
+    const m = raw.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+    return m
+      ? { r: parseInt(m[1]), g: parseInt(m[2]), b: parseInt(m[3]) }
+      : FALLBACK_RGB;
+  } catch {
+    return FALLBACK_RGB;
+  }
 }
 
-function parseAccentGlow(): RGB {
-  const el = document.documentElement;
-  const value = getComputedStyle(el).getPropertyValue("--accent-glow").trim();
-  const match = value.match(/rgba$$\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
-  if (match) {
-    return {
-      r: parseInt(match[1]),
-      g: parseInt(match[2]),
-      b: parseInt(match[3]),
-    };
-  }
-  return { r: 6, g: 182, b: 212 };
+const BLACK = { r: 0, g: 0, b: 0 };
+
+function dotColorForTheme(theme: string) {
+  if (theme === "light") return BLACK;
+  return readAccentGlow();
 }
 
 export default function DotFieldBackground() {
-  const [rgb, setRgb] = useState<RGB | null>(null);
+  const { theme } = useTheme();
+  const [rgb, setRgb] = useState(() => dotColorForTheme(theme));
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(pointer: coarse)").matches);
-    setRgb(parseAccentGlow());
-
-    const observer = new MutationObserver(() => {
-      setRgb(parseAccentGlow());
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-
-    return () => observer.disconnect();
   }, []);
 
-  if (!rgb) return null;
+  useEffect(() => {
+    setRgb(dotColorForTheme(theme));
+  }, [theme]);
 
-  const r = rgb.r;
-  const g = rgb.g;
-  const b = rgb.b;
+  const cfg = isMobile ? DOT_CONFIG.mobile : DOT_CONFIG.desktop;
+  const { r, g, b } = rgb;
 
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <DotField
-        dotRadius={isMobile ? 1 : 1.5}
-        dotSpacing={isMobile ? 24 : 14}
+        dotRadius={cfg.dotRadius}
+        dotSpacing={cfg.dotSpacing}
         bulgeStrength={67}
         glowRadius={160}
         sparkle={false}
         waveAmplitude={0}
-        cursorRadius={isMobile ? 0 : 500}
+        cursorRadius={cfg.cursorRadius}
         cursorForce={0.1}
         bulgeOnly
-        gradientFrom={`rgba(${r}, ${g}, ${b}, 0.4)`}
-        gradientTo={`rgba(${r}, ${g}, ${b}, 0.15)`}
+        gradientFrom={`rgba(${r}, ${g}, ${b}, 0.65)`}
+        gradientTo={`rgba(${r}, ${g}, ${b}, 0.38)`}
         glowColor="transparent"
       />
     </div>

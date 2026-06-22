@@ -10,7 +10,7 @@ export function GithubCard() {
     <SpotlightCard className="lg:col-span-1 lg:row-span-2">
       <div className="flex h-full flex-col p-6 sm:p-7">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--accent)] text-black shadow-[0_0_28px_var(--accent-glow)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--accent)] text-[var(--accent-contrast)] shadow-[0_0_28px_var(--accent-glow)]">
             <GithubIcon size={20} />
           </div>
           <div>

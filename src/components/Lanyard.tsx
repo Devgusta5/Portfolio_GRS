@@ -16,6 +16,8 @@ import {
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 
+import { useTheme } from '@/context/ThemeContext';
+
 const CARD_GLB = '/assets/lanyard/card.glb';
 const LANYARD_PNG = '/assets/lanyard/lanyard.png';
 
@@ -34,6 +36,14 @@ const BLANK_PIXEL =
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
+const ACCENT_COLORS: Record<string, string> = {
+  dark: '#ffffff',
+  light: '#1d4ed8',
+  green: '#10b981',
+  purple: '#8b5cf6',
+  cosmic: '#3b82f6',
+};
+
 interface LanyardProps {
   position?: [number, number, number];
   gravity?: [number, number, number];
@@ -45,7 +55,7 @@ interface LanyardProps {
   lanyardImage?: string | null;
   lanyardWidth?: number;
   className?: string;
-  accentColor?: string; // Nova prop: injeta a cor do tema atual no 3D!
+  accentColor?: string;
 }
 
 export default function Lanyard({
@@ -59,11 +69,20 @@ export default function Lanyard({
   lanyardImage = null,
   lanyardWidth = 1,
   className = '',
-  accentColor = '#ffffff' // Padrão caso não venha do tema
+  accentColor: accentColorProp
 }: LanyardProps) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { theme } = useTheme();
 
-  // Evita Hydration Flashing garantindo que a leitura de tela ocorra estritamente no client
+  const accentColor = accentColorProp || ACCENT_COLORS[theme] || '#ffffff';
+  const isLight = theme === 'light';
+
+  const ambientIntensity = Math.PI * 0.8;
+  const l1Intensity = 2;
+  const l2Intensity = 3;
+  const l3Intensity = 3;
+  const l4Intensity = 8;
+
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
     const handleResize = (): void => setIsMobile(window.innerWidth < 768);
@@ -75,11 +94,11 @@ export default function Lanyard({
     <div className={`relative z-0 w-full h-full flex justify-center items-center transform scale-100 origin-center ${className}`}>
       <Canvas
         camera={{ position, fov }}
-        dpr={[1, isMobile ? 1.2 : 1.5]} // Otimizado: 2.0 em telas Retina pesava muito a física do Rapier
+        dpr={[1, isMobile ? 1.2 : 1.5]}
         gl={{ alpha: transparent, antialias: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
-        <ambientLight intensity={Math.PI * 0.8} />
+        <ambientLight intensity={ambientIntensity} />
         <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
           <Suspense fallback={null}>
             <Band
@@ -90,16 +109,16 @@ export default function Lanyard({
               lanyardImage={lanyardImage}
               lanyardWidth={lanyardWidth}
               accentColor={accentColor}
+              theme={theme}
             />
           </Suspense>
         </Physics>
         
-        {/* Estúdio de Iluminação Dinâmico — Agora reage sutilmente ao tema */}
         <Environment blur={0.75}>
-          <Lightformer intensity={2} color={accentColor} position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-          <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-          <Lightformer intensity={3} color={accentColor} position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-          <Lightformer intensity={8} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+          <Lightformer intensity={l1Intensity} color={accentColor} position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={l2Intensity} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={l3Intensity} color={accentColor} position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={l4Intensity} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
         </Environment>
       </Canvas>
     </div>
@@ -108,6 +127,7 @@ export default function Lanyard({
 
 interface BandProps extends BandOriginalProps {
   accentColor: string;
+  theme: string;
 }
 
 interface BandOriginalProps {
@@ -134,7 +154,8 @@ function Band({
   imageFit = 'cover',
   lanyardImage = null,
   lanyardWidth = 1,
-  accentColor
+  accentColor,
+  theme
 }: BandProps) {
   const band = useRef<THREE.Mesh<InstanceType<typeof MeshLineGeometry>, InstanceType<typeof MeshLineMaterial>>>(null!);
   const fixed = useRef<RapierRigidBody>(null!);
@@ -142,6 +163,7 @@ function Band({
   const j2 = useRef<LanyardRigidBody>(null!);
   const j3 = useRef<RapierRigidBody>(null!);
   const card = useRef<RapierRigidBody>(null!);
+  const isLight = theme === 'light';
 
   const vec = new THREE.Vector3();
   const ang = new THREE.Vector3();
@@ -168,7 +190,6 @@ function Band({
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
 
-  // Mapeamento e composição com descarte de memória ativo (Garbage Collector da GPU)
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map as THREE.Texture;
     if (!frontImage && !backImage) return baseMap;
@@ -209,13 +230,12 @@ function Band({
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
-    composite.anisotropy = 8; // Reduzido de 16 para 8: Performance muito melhor em telas comuns sem perder nitidez
+    composite.anisotropy = 8;
     composite.needsUpdate = true;
 
     return composite;
   }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
 
-  // Hook essencial de limpeza para previnir estouro de VRAM
   useEffect(() => {
     return () => {
       if (cardMap && cardMap !== materials.base.map) {
@@ -248,7 +268,6 @@ function Band({
   }, [hovered, dragged]);
 
   useFrame((state, delta) => {
-    // Trava de segurança contra delta spikes gigantes (evita o crachá voar da tela se a aba congelar)
     const safeDelta = Math.min(delta, 0.1);
 
     if (dragged && typeof dragged !== 'boolean') {
@@ -256,10 +275,29 @@ function Band({
       dir.copy(vec).sub(state.camera.position).normalize();
       vec.add(dir.multiplyScalar(state.camera.position.length()));
       [card, j1, j2, j3, fixed].forEach(ref => ref.current?.wakeUp());
+      
+      let targetX = vec.x - dragged.x;
+      let targetY = vec.y - dragged.y;
+      let targetZ = vec.z - dragged.z;
+      
+      if (fixed.current) {
+        const anchorPos = fixed.current.translation();
+        const dx = targetX - anchorPos.x;
+        const dy = targetY - anchorPos.y;
+        const dz = targetZ - anchorPos.z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        const maxLen = 4.2;
+        if (dist > maxLen) {
+          targetX = anchorPos.x + (dx / dist) * maxLen;
+          targetY = anchorPos.y + (dy / dist) * maxLen;
+          targetZ = anchorPos.z + (dz / dist) * maxLen;
+        }
+      }
+
       card.current?.setNextKinematicTranslation({
-        x: vec.x - dragged.x,
-        y: vec.y - dragged.y,
-        z: vec.z - dragged.z
+        x: targetX,
+        y: targetY,
+        z: targetZ
       });
     }
     if (fixed.current) {
@@ -272,15 +310,21 @@ function Band({
       curve.points[1].copy(getLerped(j2.current));
       curve.points[2].copy(getLerped(j1.current));
       curve.points[3].copy(fixed.current.translation());
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 12 : 24)); // Otimizado contagem de segmentos no mobile
+      band.current.geometry.setPoints(curve.getPoints(isMobile ? 12 : 24));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
-      card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z }, true);
+      card.current.setAngvel({ x: ang.x * 0.98, y: (ang.y - rot.y * 0.3) * 0.98, z: ang.z * 0.98 }, true);
     }
   });
 
   curve.curveType = 'chordal';
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+  const cardSegmentProps: RigidBodyProps = {
+    ...segmentProps,
+    angularDamping: 2.2,
+    linearDamping: 1.8
+  };
 
   return (
     <>
@@ -298,7 +342,7 @@ function Band({
         <RigidBody
           position={[2, 0, 0]}
           ref={card}
-          {...segmentProps}
+          {...cardSegmentProps}
           type={dragged ? 'kinematicPosition' : 'dynamic'}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
@@ -320,10 +364,11 @@ function Band({
               <meshPhysicalMaterial
                 map={cardMap}
                 map-anisotropy={8}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.6}
-                metalness={0.2}
+                color="#ffffff"
+                clearcoat={isMobile ? 0 : (hovered ? 1.0 : 0.85)}
+                clearcoatRoughness={hovered ? 0.05 : 0.15}
+                roughness={hovered ? 0.4 : 0.6}
+                metalness={hovered ? 0.35 : 0.2}
               />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
@@ -334,7 +379,7 @@ function Band({
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
-          color={accentColor} // REATIVIDADE: A fita agora pinta com a cor do tema atual!
+          color={accentColor}
           depthTest={false}
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
           map={texture}

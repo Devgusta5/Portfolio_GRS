@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={cn("h-full antialiased", "font-sans", geist.variable)}>
+    <html lang="pt-BR" className={cn("h-full antialiased", "font-sans", geist.variable)} suppressHydrationWarning>
       <head>
         <ThemeInitScript />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

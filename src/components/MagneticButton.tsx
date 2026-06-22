@@ -37,7 +37,7 @@ export function MagneticButton({
   const base =
     "relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-[transform,background,box-shadow] duration-200 ease-out";
   const solid =
-    "bg-[var(--accent)] text-black shadow-[0_0_24px_var(--accent-glow)] hover:shadow-[0_0_36px_var(--accent-glow)]";
+    "bg-[var(--accent)] text-[var(--accent-contrast)] shadow-[0_0_24px_var(--accent-glow)] hover:shadow-[0_0_36px_var(--accent-glow)]";
   const outline =
     "border border-[var(--border-2)] text-[var(--text)] hover:border-[var(--accent)] hover:bg-[var(--card-hover)]";
 
