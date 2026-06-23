@@ -137,15 +137,15 @@ function DockItem({
   );
 }
 
-function SocialPopover() {
+function SocialPopover({ mobile }: { mobile?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const links = [
-    { icon: MailIcon, href: 'mailto:gustaaffonso@gmail.com', label: 'Gmail' },
-    { icon: InstagramIcon, href: 'https://instagram.com/gust4.afonso', label: 'Instagram' },
-    { icon: LinkedinIcon, href: 'https://linkedin.com/in/gustavo-rodrigues-6856482a0', label: 'LinkedIn' },
-    { icon: GithubIcon, href: 'https://github.com/anomalyco', label: 'GitHub' },
+    { icon: MailIcon, href: 'mailto:gusta.gu.112007.55@gmail.com', label: 'Gmail' },
+    { icon: InstagramIcon, href: 'https://instagram.com/gustav_grs', label: 'Instagram' },
+    { icon: LinkedinIcon, href: 'https://linkedin.com/in/devgusta5', label: 'LinkedIn' },
+    { icon: GithubIcon, href: 'https://github.com/devgusta5', label: 'GitHub' },
   ];
 
   useEffect(() => {
@@ -155,6 +155,40 @@ function SocialPopover() {
     document.addEventListener('click', onClickOutside);
     return () => document.removeEventListener('click', onClickOutside);
   }, []);
+
+  if (mobile) {
+    return (
+      <div ref={ref} className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-1.5 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
+          aria-label="Contato"
+        >
+          <MessageCircle size={16} fill="currentColor" />
+        </button>
+        {open && (
+          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 flex gap-1 rounded-xl border border-[var(--border-2)] bg-[var(--bg-2)]/90 p-1.5 shadow-2xl backdrop-blur-xl">
+            {links.map((link) => {
+              const Icon = link.icon;
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative flex items-center justify-center rounded-lg p-1.5 text-[var(--text-3)] transition-colors hover:text-[var(--accent)] hover:bg-[var(--card-hover)]"
+                  aria-label={link.label}
+                >
+                  <Icon size={14} fill="currentColor" />
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -202,7 +236,7 @@ function SocialPopover() {
   );
 }
 
-function ThemeDot() {
+function ThemeDot({ mobile }: { mobile?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -215,6 +249,48 @@ function ThemeDot() {
     document.addEventListener('click', onClickOutside);
     return () => document.removeEventListener('click', onClickOutside);
   }, []);
+
+  const swatches = (
+    <div className="flex gap-1.5 rounded-xl border border-[var(--border-2)] bg-[var(--bg-2)]/90 p-2 shadow-2xl backdrop-blur-xl">
+      {THEMES.map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          onClick={() => { setTheme(t.id); setOpen(false); }}
+          className={`h-5 w-5 rounded-full transition-all hover:scale-125 ${
+            t.id === theme
+              ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--bg-2)] scale-110'
+              : ''
+          }`}
+          style={{ background: t.swatch }}
+          aria-label={t.label}
+        />
+      ))}
+    </div>
+  );
+
+  if (mobile) {
+    return (
+      <div ref={ref} className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-1.5 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
+          aria-label="Trocar tema"
+        >
+          <span
+            className="h-2.5 w-2.5 rounded-full ring-1 ring-[var(--border-2)] transition-transform hover:scale-110"
+            style={{ background: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
+          />
+        </button>
+        {open && (
+          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2">
+            {swatches}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div ref={ref} className="relative">
@@ -237,22 +313,9 @@ function ThemeDot() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-full ml-3 top-1/2 -translate-y-1/2 flex gap-1.5 rounded-xl border border-[var(--border-2)] bg-[var(--bg-2)]/90 p-2 shadow-2xl backdrop-blur-xl"
+            className="absolute left-full ml-3 top-1/2 -translate-y-1/2"
           >
-            {THEMES.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => { setTheme(t.id); setOpen(false); }}
-                className={`h-5 w-5 rounded-full transition-all hover:scale-125 ${
-                  t.id === theme
-                    ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--bg-2)] scale-110'
-                    : ''
-                }`}
-                style={{ background: t.swatch }}
-                aria-label={t.label}
-              />
-            ))}
+            {swatches}
           </motion.div>
         )}
       </AnimatePresence>
@@ -338,7 +401,8 @@ export function Navbar() {
             <div className="absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] opacity-10 blur-3xl [animation:beam-drift_8s_ease-in-out_infinite]" />
           </div>
 
-          <div className="relative flex items-center gap-2">
+          <div className="relative flex items-center gap-0.5">
+            <SocialPopover mobile />
             {NAV_LINKS.map((link, i) => {
               const Icon = link.icon;
               const isActive = activeSection === link.href;
@@ -346,7 +410,7 @@ export function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`relative flex items-center justify-center rounded-xl p-2 transition-colors ${
+                  className={`relative flex items-center justify-center rounded-xl p-1 transition-colors ${
                     isActive ? 'text-[var(--accent)]' : 'text-[var(--text-3)]'
                   }`}
                 >
@@ -370,8 +434,8 @@ export function Navbar() {
                 </a>
               );
             })}
-            <div className="mx-1 h-4 w-[1px] bg-[var(--border)]" />
-            <ThemeDot />
+            <div className="mx-0.5 h-4 w-[1px] bg-[var(--border)]" />
+            <ThemeDot mobile />
           </div>
         </div>
       </div>

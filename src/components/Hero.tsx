@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { Terminal } from "@/components/Terminal";
 
 const DotFieldBackground = dynamic(() => import("./DotFieldBackground"), { ssr: false });
 
@@ -19,7 +20,8 @@ export function Hero() {
       <DotFieldBackground />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center lg:flex-row">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between">
+        {/* Left: Text */}
         <div className="w-full max-w-xl text-center lg:text-left">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
             Full Stack Developer
@@ -28,6 +30,11 @@ export function Hero() {
           <h1 className="text-4xl font-semibold leading-[0.96] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
             Gustavo Rodrigues
           </h1>
+        </div>
+
+        {/* Right: Terminal em destaque */}
+        <div className="w-full max-w-lg lg:w-[520px]">
+          <Terminal />
         </div>
       </div>
     </section>
