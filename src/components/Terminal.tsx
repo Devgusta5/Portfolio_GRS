@@ -21,13 +21,12 @@ export function Terminal() {
 
   const outputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const promptRef = useRef<HTMLDivElement>(null);
   const helpTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
-    if (outputRef.current) {
-      outputRef.current.scrollTop = outputRef.current.scrollHeight;
-    }
-  }, [output]);
+    promptRef.current?.scrollIntoView({ block: "end" });
+  }, [output, inputValue]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -139,7 +138,7 @@ export function Terminal() {
       default:
         addOutput(
           "error",
-          `'${cmd}' nao e reconhecido como um comando interno ou arquivo batch.`
+          `'${cmd}' nao e reconhecido como um comando interno.`
         );
     }
   }
@@ -325,6 +324,8 @@ export function Terminal() {
         setHistoryIndex(newIndex);
         setInputValue(commandHistory[newIndex]);
       }
+    } else if (e.key === "Tab") {
+      e.preventDefault();
     }
   }
 
@@ -351,7 +352,6 @@ export function Terminal() {
           </span>
         </div>
 
-        {/* Help button */}
         <div
           className="relative"
           onMouseEnter={handleHelpMouseEnter}
@@ -376,16 +376,16 @@ export function Terminal() {
                 Comandos
               </p>
               <div className="space-y-1">
-                  {[
-                    ["help", "Ajuda"],
-                    ["dir / ls", "Listar pastas"],
-                    ["cd", "Navegar"],
-                    ["type", "Ler arquivo"],
-                    ["open", "Secao/Link"],
-                    ["cls", "Limpar"],
-                    ["whoami", "Info usuario"],
-                    ["tree", "Arvore"],
-                  ].map(([cmd, desc]) => (
+                {[
+                  ["help", "Ajuda"],
+                  ["dir / ls", "Listar pastas"],
+                  ["cd", "Navegar"],
+                  ["type", "Ler arquivo"],
+                  ["open", "Secao/Link"],
+                  ["cls", "Limpar"],
+                  ["whoami", "Info usuario"],
+                  ["tree", "Arvore"],
+                ].map(([cmd, desc]) => (
                   <div
                     key={cmd}
                     className="flex items-center justify-between text-[10px]"
@@ -412,11 +412,11 @@ export function Terminal() {
         </div>
       </div>
 
-      {/* Output */}
+      {/* Scrollable output */}
       <div
         ref={outputRef}
         onClick={focusInput}
-        className="h-[300px] cursor-text overflow-y-auto bg-[var(--bg)] p-4 leading-relaxed scrollbar-thin sm:h-[380px] lg:h-[420px]"
+        className="h-[220px] cursor-text overflow-y-auto bg-[var(--bg)] p-4 leading-relaxed scrollbar-thin sm:h-[270px] lg:h-[470px]"
       >
         {output.map((line, i) => (
           <div
@@ -434,10 +434,11 @@ export function Terminal() {
             {line.text}
           </div>
         ))}
+        <div ref={promptRef} />
       </div>
 
-      {/* Input */}
-      <div className="flex items-center border-t border-[var(--border)] bg-[var(--bg-2)] px-3 py-2">
+      {/* Fixed input line at bottom */}
+      <div className="flex items-center border-t border-[var(--border)] bg-[var(--bg)] px-4 py-2.5">
         <span className="mr-2 shrink-0 text-[var(--accent)]">
           {getDisplayPath()}&gt;
         </span>

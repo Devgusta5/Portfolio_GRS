@@ -29,7 +29,7 @@ function link(url: string, label: string): FsFile {
   return { type: "link", url, label };
 }
 
-export const ROOT: FsDir = dir({
+const OS_CONTENT: Record<string, FsDir | FsFile> = {
   "README.txt": text(`╔══════════════════════════════════╗
 ║   GR.OS v3.2.1 — Portfólio OS   ║
 ╚══════════════════════════════════╝
@@ -159,6 +159,12 @@ Digite 'help' para comandos completos.`),
 
   "Transformando linhas de código
    em soluções que geram impacto."`),
+};
+
+export const ROOT: FsDir = dir({
+  GR: dir({
+    OS: dir(OS_CONTENT),
+  }),
 });
 
 export const INITIAL_PATH = ["C:", "GR", "OS"];

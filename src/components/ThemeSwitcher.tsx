@@ -33,7 +33,8 @@ export function ThemeSwitcher() {
       >
         <span
           className="h-2.5 w-2.5 rounded-full"
-          style={{ background: current.swatch, boxShadow: `0 0 8px ${current.swatch}` }}
+          style={{ backgroundColor: current.swatch, boxShadow: `0 0 8px ${current.swatch}` }}
+          suppressHydrationWarning
         />
         <span className="hidden sm:inline">{current.label}</span>
         <ChevronDownIcon
@@ -63,7 +64,8 @@ export function ThemeSwitcher() {
               >
                 <span
                   className="h-2.5 w-2.5 shrink-0 rounded-full"
-                  style={{ background: t.swatch, boxShadow: `0 0 6px ${t.swatch}` }}
+                  style={{ backgroundColor: t.swatch, boxShadow: `0 0 6px ${t.swatch}` }}
+                  suppressHydrationWarning
                 />
                 {t.label}
               </button>

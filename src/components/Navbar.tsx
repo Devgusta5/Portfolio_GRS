@@ -162,13 +162,14 @@ function SocialPopover({ mobile }: { mobile?: boolean }) {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-1.5 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
+          className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-2 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
+          style={{ touchAction: 'manipulation' }}
           aria-label="Contato"
         >
-          <MessageCircle size={16} fill="currentColor" />
+          <MessageCircle size={18} fill="currentColor" />
         </button>
         {open && (
-          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 flex gap-1 rounded-xl border border-[var(--border-2)] bg-[var(--bg-2)]/90 p-1.5 shadow-2xl backdrop-blur-xl">
+          <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 rounded-xl border border-[var(--border-2)]/50 bg-[var(--glass)] p-2 shadow-2xl backdrop-blur-2xl">
             {links.map((link) => {
               const Icon = link.icon;
               return (
@@ -177,10 +178,10 @@ function SocialPopover({ mobile }: { mobile?: boolean }) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex items-center justify-center rounded-lg p-1.5 text-[var(--text-3)] transition-colors hover:text-[var(--accent)] hover:bg-[var(--card-hover)]"
+                  className="relative flex items-center justify-center rounded-lg p-2 text-[var(--text-3)] transition-colors hover:text-[var(--accent)] hover:bg-[var(--card-hover)]"
                   aria-label={link.label}
                 >
-                  <Icon size={14} fill="currentColor" />
+                  <Icon size={16} fill="currentColor" />
                 </a>
               );
             })}
@@ -262,8 +263,9 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
               ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--bg-2)] scale-110'
               : ''
           }`}
-          style={{ background: t.swatch }}
+          style={{ backgroundColor: t.swatch }}
           aria-label={t.label}
+          suppressHydrationWarning
         />
       ))}
     </div>
@@ -275,17 +277,35 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-1.5 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
+          className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-2 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
+          style={{ touchAction: 'manipulation' }}
           aria-label="Trocar tema"
         >
           <span
-            className="h-2.5 w-2.5 rounded-full ring-1 ring-[var(--border-2)] transition-transform hover:scale-110"
-            style={{ background: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
+            className="h-3 w-3 rounded-full ring-1 ring-[var(--border-2)] transition-transform hover:scale-110"
+            style={{ backgroundColor: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
+            suppressHydrationWarning
           />
         </button>
         {open && (
-          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2">
-            {swatches}
+          <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2">
+            <div className="flex flex-col items-center gap-1.5 rounded-xl border border-[var(--border-2)]/50 bg-[var(--glass)] p-2 shadow-2xl backdrop-blur-2xl">
+              {THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => { setTheme(t.id); setOpen(false); }}
+                  className={`h-5 w-5 rounded-full transition-all hover:scale-125 ${
+                    t.id === theme
+                      ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--bg-2)] scale-110'
+                      : ''
+                  }`}
+                  style={{ backgroundColor: t.swatch }}
+                  aria-label={t.label}
+                  suppressHydrationWarning
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -302,7 +322,8 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
       >
         <span
           className="h-3 w-3 rounded-full ring-1 ring-[var(--border-2)] transition-transform hover:scale-110"
-          style={{ background: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
+          style={{ backgroundColor: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
+          suppressHydrationWarning
         />
       </button>
 
@@ -354,6 +375,9 @@ export function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  const [scrolled, setScrolled] = useState(false);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     if (isMobile) document.body.style.paddingBottom = '80px';
@@ -367,11 +391,50 @@ export function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) return;
+
+    const onFocusIn = (e: FocusEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') {
+        setIsKeyboardOpen(true);
+      }
+    };
+
+    const onFocusOut = (e: FocusEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') {
+        setTimeout(() => {
+          const a = document.activeElement;
+          if (!a || (a.tagName !== 'INPUT' && a.tagName !== 'TEXTAREA')) {
+            setIsKeyboardOpen(false);
+          }
+        }, 100);
+      }
+    };
+
+    document.addEventListener('focusin', onFocusIn);
+    document.addEventListener('focusout', onFocusOut);
+    return () => {
+      document.removeEventListener('focusin', onFocusIn);
+      document.removeEventListener('focusout', onFocusOut);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.4);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       <BetaBadge />
       {/* Floating glass sidebar — desktop */}
-      <aside className="fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-1.5 rounded-2xl border border-[var(--border)] bg-[var(--glass)] p-2 shadow-2xl backdrop-blur-xl md:flex">
+      <aside className={`fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-1.5 rounded-2xl border border-[var(--border)] p-2 backdrop-blur-xl md:flex transition-all duration-500 ${
+        scrolled ? 'bg-[var(--glass)] shadow-2xl' : 'bg-[var(--glass)]/40 shadow-lg'
+      }`}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
           <div className="absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] opacity-15 blur-3xl [animation:beam-drift_8s_ease-in-out_infinite]" />
         </div>
@@ -395,13 +458,20 @@ export function Navbar() {
       </aside>
 
       {/* Floating dock — mobile */}
-      <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 md:hidden">
+      <div
+        className={`fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 md:hidden ${
+          isKeyboardOpen ? 'translate-y-24 opacity-0' : ''
+        }`}
+        style={{
+          filter: scrolled ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' : 'none',
+        }}
+      >
         <div className="relative rounded-2xl border border-[var(--border)] bg-[var(--glass)] px-3.5 py-2 shadow-2xl backdrop-blur-xl">
           <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
             <div className="absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] opacity-10 blur-3xl [animation:beam-drift_8s_ease-in-out_infinite]" />
           </div>
 
-          <div className="relative flex items-center gap-0.5">
+          <div className="relative flex items-center gap-1.5">
             <SocialPopover mobile />
             {NAV_LINKS.map((link, i) => {
               const Icon = link.icon;
@@ -410,9 +480,10 @@ export function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`relative flex items-center justify-center rounded-xl p-1 transition-colors ${
+                  className={`relative flex items-center justify-center rounded-xl p-2 transition-colors ${
                     isActive ? 'text-[var(--accent)]' : 'text-[var(--text-3)]'
                   }`}
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {isActive && (
                     <>
@@ -429,12 +500,12 @@ export function Navbar() {
                     </>
                   )}
                   <span className="relative">
-                    <Icon size={16} />
+                    <Icon size={18} />
                   </span>
                 </a>
               );
             })}
-            <div className="mx-0.5 h-4 w-[1px] bg-[var(--border)]" />
+            <div className="mx-0.5 h-5 w-[1px] bg-[var(--border)]" />
             <ThemeDot mobile />
           </div>
         </div>

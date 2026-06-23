@@ -204,6 +204,15 @@ body {
     sans-serif;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, var(--accent-glow-soft), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
 ::selection {
   background: var(--accent);
   color: #000;

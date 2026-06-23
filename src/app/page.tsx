@@ -10,6 +10,7 @@ import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { Timeline } from "@/components/Timeline";
 import { Footer } from "@/components/Footer";
 import { BootLoader } from "@/components/BootLoader";
+import { Reveal } from "@/components/Reveal";
 
 export default function Home() {
   const [bootFinished, setBootFinished] = useState(false);
@@ -21,13 +22,13 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <CapabilityMatrixSection />
-        <BentoSection />
-        <EtecNotesShowcase />
-        <ProjectsGrid />
-        <Timeline />
+        <Reveal delay={80}><CapabilityMatrixSection /></Reveal>
+        <Reveal delay={120}><BentoSection /></Reveal>
+        <Reveal delay={160}><EtecNotesShowcase /></Reveal>
+        <Reveal delay={200}><ProjectsGrid /></Reveal>
+        <Reveal delay={240}><Timeline /></Reveal>
       </main>
-      <Footer />
+      <Reveal delay={200}><Footer /></Reveal>
     </>
   );
 }

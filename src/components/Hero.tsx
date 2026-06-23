@@ -20,9 +20,9 @@ export function Hero() {
       <DotFieldBackground />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-12">
         {/* Left: Text */}
-        <div className="w-full max-w-xl text-center lg:text-left">
+        <div className="w-full text-center lg:w-auto lg:text-left">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
             Full Stack Developer
           </p>
@@ -32,8 +32,8 @@ export function Hero() {
           </h1>
         </div>
 
-        {/* Right: Terminal em destaque */}
-        <div className="w-full max-w-lg lg:w-[520px]">
+        {/* Right: Terminal */}
+        <div className="w-full lg:w-[700px] xl:w-[800px]">
           <Terminal />
         </div>
       </div>
