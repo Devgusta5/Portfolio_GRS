@@ -127,6 +127,14 @@ function RadarChart({
             key={axis.key}
             className="cursor-pointer"
             onClick={() => (isSelected ? onBack() : onSelect(axis.key))}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                isSelected ? onBack() : onSelect(axis.key);
+              }
+            }}
+            role="button"
+            tabIndex={0}
           >
             {/* Invisible wider click area */}
             <line
@@ -187,6 +195,9 @@ function RadarChart({
         fill="var(--accent)"
         className={selectedKey ? "cursor-pointer" : ""}
         onClick={selectedKey ? onBack : undefined}
+        onKeyDown={selectedKey ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onBack(); } } : undefined}
+        role={selectedKey ? "button" : undefined}
+        tabIndex={selectedKey ? 0 : undefined}
       />
       {selectedKey && (
         <text

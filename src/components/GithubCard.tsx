@@ -2,8 +2,7 @@ import { SpotlightCard } from "./SpotlightCard";
 import { GithubIcon } from "./icons/GithubIcon";
 import { StarIcon } from "./icons/MiscIcons";
 import { REPOS, GITHUB_USERNAME } from "@/data/github";
-
-const ACTIVITY = [28, 52, 34, 76, 48, 88, 62, 40, 70, 96, 58, 82];
+import { RecentActivity } from "./RecentActivity";
 
 export function GithubCard() {
   return (
@@ -21,25 +20,9 @@ export function GithubCard() {
           </div>
         </div>
 
-        <div className="mb-5 rounded-2xl border border-[var(--border)] bg-[var(--bg)]/60 p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-3)]">
-              commit pulse
-            </p>
-            <span className="text-xs text-[var(--accent)]">active</span>
-          </div>
-          <div className="flex h-24 items-end gap-1.5">
-            {ACTIVITY.map((height, index) => (
-              <span
-                key={`${height}-${index}`}
-                className="flex-1 rounded-t bg-[var(--accent)]/70 shadow-[0_0_12px_var(--accent-glow)]"
-                style={{ height: `${height}%` }}
-              />
-            ))}
-          </div>
-        </div>
+        <RecentActivity />
 
-        <ul className="flex-1 space-y-2.5">
+        <ul className="mt-4 flex-1 space-y-2.5">
           {REPOS.map((repo) => (
             <li
               key={repo.name}

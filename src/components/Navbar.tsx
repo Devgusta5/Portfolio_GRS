@@ -52,7 +52,7 @@ function MailIcon({ size, fill: _f }: { size?: number; fill?: string }) {
 
 const NAV_LINKS = [
   { label: 'Inicio', href: '#top', icon: Home },
-  { label: 'Skills', href: '#capability-matrix', icon: Radar },
+  { label: 'Matriz', href: '#capability-matrix', icon: Radar },
   { label: 'Stack', href: '#stack', icon: Layers },
   { label: 'EtecNotes', href: '#etecnotes', icon: BookOpen },
   { label: 'Projetos', href: '#projetos', icon: FolderKanban },
@@ -75,7 +75,7 @@ function DockItem({
   onNavigate?: () => void;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
-  const [hovered, setHovered] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const mouseX = useMotionValue(Infinity);
 
   const distance = useTransform(mouseX, (val) => {
@@ -93,8 +93,10 @@ function DockItem({
       ref={ref}
       href={href}
       onClick={onNavigate}
-      onMouseMove={(e) => { mouseX.set(e.clientX); setHovered(true); }}
-      onMouseLeave={() => { mouseX.set(Infinity); setHovered(false); }}
+      onMouseMove={(e) => { mouseX.set(e.clientX); setTooltipOpen(true); }}
+      onMouseLeave={() => { mouseX.set(Infinity); setTooltipOpen(false); }}
+      onFocus={() => setTooltipOpen(true)}
+      onBlur={() => setTooltipOpen(false)}
       style={{ scale: scaleSpring, opacity }}
       className="relative flex items-center justify-center rounded-xl p-2.5 transition-colors group cursor-pointer"
     >
@@ -104,12 +106,12 @@ function DockItem({
           <motion.span
             layoutId="nav-glow"
             className="absolute inset-0 rounded-xl border border-[var(--accent)]/15 bg-[var(--accent-glow-soft)]"
-            transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 24 }}
           />
           <motion.span
             layoutId="active-tick"
             className="absolute -left-1.5 top-1/2 h-3.5 w-[2px] -translate-y-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]"
-            transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 24 }}
           />
         </>
       )}
@@ -120,7 +122,7 @@ function DockItem({
 
       {/* Desktop tooltip */}
       <AnimatePresence>
-        {hovered && (
+        {tooltipOpen && (
           <motion.span
             initial={{ opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
@@ -346,9 +348,9 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
 
 function BetaBadge() {
   return (
-    <div className="fixed left-2 top-2 z-[60] flex items-center gap-1.5 rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/80 px-2.5 py-1 shadow-lg backdrop-blur-sm">
+    <div className="fixed right-2 top-2 z-[60] flex items-center gap-1.5 rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/80 px-2.5 py-1 shadow-lg backdrop-blur-sm">
       <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" />
+        <span className="absolute inline-flex h-full w-full animate-beta-pulse rounded-full bg-[var(--accent)] opacity-75" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" />
       </span>
       <span className="text-[10px] font-mono text-[var(--text-3)]">Beta</span>
@@ -377,6 +379,7 @@ export function Navbar() {
 
   const [scrolled, setScrolled] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [sidebarHovered, setSidebarHovered] = useState(false);
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
@@ -432,11 +435,14 @@ export function Navbar() {
     <>
       <BetaBadge />
       {/* Floating glass sidebar — desktop */}
-      <aside className={`fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-1.5 rounded-2xl border border-[var(--border)] p-2 backdrop-blur-xl md:flex transition-all duration-500 ${
+      <aside
+        onMouseEnter={() => setSidebarHovered(true)}
+        onMouseLeave={() => setSidebarHovered(false)}
+        className={`fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-1.5 rounded-2xl border border-[var(--border)] p-2 backdrop-blur-xl md:flex transition-all duration-500 ${
         scrolled ? 'bg-[var(--glass)] shadow-2xl' : 'bg-[var(--glass)]/40 shadow-lg'
       }`}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
-          <div className="absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] opacity-15 blur-3xl [animation:beam-drift_8s_ease-in-out_infinite]" />
+          <div className={`absolute -inset-10 bg-[linear-gradient(45deg,transparent_30%,var(--accent-glow-soft)_50%,transparent_70%)] blur-3xl transition-all duration-700 ${sidebarHovered ? 'opacity-15 animate-beam-drift' : 'opacity-0'}`} />
         </div>
 
         <div className="relative flex flex-col items-center gap-1.5">
@@ -490,12 +496,12 @@ export function Navbar() {
                       <motion.span
                         layoutId="mobile-glow"
                         className="absolute inset-0 rounded-xl border border-[var(--accent)]/15 bg-[var(--accent-glow-soft)]"
-                        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                        transition={{ type: 'spring', stiffness: 280, damping: 24 }}
                       />
                       <motion.span
                         layoutId="active-tick-mobile"
                         className="absolute -bottom-1 left-1/2 h-[2px] w-3.5 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]"
-                        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                        transition={{ type: 'spring', stiffness: 280, damping: 24 }}
                       />
                     </>
                   )}

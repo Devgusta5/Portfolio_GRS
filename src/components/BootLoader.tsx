@@ -10,12 +10,23 @@ const BOOT_LINES = [
   { text: "> System ready.", delay: 2400 },
 ];
 
+const BOOT_SKIP_KEY = "grs-portfolio-boot-skipped";
+
 export function BootLoader({ onFinish }: { onFinish: () => void }) {
   const [visibleLines, setVisibleLines] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const alreadySeen = localStorage.getItem(BOOT_SKIP_KEY) === "true";
+
+    if (prefersReduced || alreadySeen) {
+      setFadeOut(true);
+      setTimeout(onFinish, 600);
+      return;
+    }
+
     const timers: ReturnType<typeof setTimeout>[] = [];
 
     BOOT_LINES.forEach((line, i) => {
@@ -26,7 +37,10 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
           if (i === BOOT_LINES.length - 1) {
             setTimeout(() => {
               setFadeOut(true);
-              setTimeout(onFinish, 600);
+              setTimeout(() => {
+                localStorage.setItem(BOOT_SKIP_KEY, "true");
+                onFinish();
+              }, 600);
             }, 600);
           }
         }, line.delay)
@@ -49,6 +63,18 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
+      <button
+        type="button"
+        onClick={() => {
+          setFadeOut(true);
+          setTimeout(onFinish, 600);
+        }}
+        className="absolute right-4 top-4 rounded-lg border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-2)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+        aria-label="Pular animacao de boot"
+      >
+        Skip
+      </button>
+
       <div className="w-full max-w-md px-6">
         <div className="mb-6 h-px bg-[var(--border-2)]" />
 

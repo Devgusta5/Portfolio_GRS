@@ -1,0 +1,27 @@
+🚀 Sobre mim
+Dev FullStack movido a resolver problema real. Há 14 meses sou co-criador do
+EtecNotes, plataforma educacional que hoje atende mais de 1.100 alunos,
+professores e gestores da Etec de Peruíbe — com 40+ funcionalidades no ar.
+
+💻 Trajetória
+
+EtecNotes (2025–atual)
+Co-arquitetei do zero uma plataforma full-stack em produção: React no front,
+Node.js/Express no back, integrações de API e uma arquitetura que evolui
+junto com a demanda real da escola. Destaque: criei um canal de report de
+bugs direto do app pro painel dev — cortou em até 60% o tempo de resposta
+a problemas críticos.
+
+Beyond (2025)
+Atuei em 4 projetos grandes, em squads de 8 a 12 pessoas, resolvendo bugs
+de back-end e construindo features de front sob demanda real de cliente.
+Bônus: usei IA de forma estratégica no fluxo de trabalho e acelerei
+entregas em ~30%.
+
+🛠️ Stack
+React · React Native · JavaScript · Node.js · Express · APIs REST ·
+Git/GitHub · Vercel · Firebase
+
+🎓 Formação
+ADS na UNISANTA (em andamento) · Técnico em Desenvolvimento de Sistemas
+pela Etec de Peruíbe · 2x vencedor de hackathons escolares

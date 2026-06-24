@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ThemeInitScript } from "@/components/ThemeInitScript";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Gustavo Rodrigues - Desenvolvedor Full Stack",
@@ -19,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={cn("h-full antialiased", "font-sans", geist.variable)} suppressHydrationWarning>
+    <html lang="pt-BR" className="h-full antialiased" suppressHydrationWarning>
       <head>
         <ThemeInitScript />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,6 +26,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col lg:pl-20">
+        <a
+          href="#main-content"
+          className="fixed -left-full top-2 z-[100] rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-2 text-sm text-[var(--text)] shadow-2xl transition-all focus:left-2 focus:outline-2 focus:outline-[var(--accent)]"
+        >
+          Pular para o conteudo
+        </a>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

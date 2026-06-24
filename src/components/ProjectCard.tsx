@@ -11,7 +11,7 @@ export function ProjectCard({
   index?: number;
 }) {
   return (
-    <SpotlightCard className="flex h-full min-h-[320px] flex-col p-0">
+    <SpotlightCard as="article" className="flex h-full min-h-[320px] flex-col p-0">
       <div className="relative flex flex-1 flex-col overflow-hidden p-6">
         <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full border border-[var(--border-2)] bg-[var(--accent-glow-soft)] blur-sm" />
         <div className="absolute inset-x-0 top-0 h-px bg-[var(--accent)] opacity-60" />

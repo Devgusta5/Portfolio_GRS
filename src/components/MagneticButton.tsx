@@ -35,7 +35,7 @@ export function MagneticButton({
   }
 
   const base =
-    "relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-[transform,background,box-shadow] duration-200 ease-out";
+    "relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-[transform,background,box-shadow] duration-200 ease-out active:scale-95";
   const solid =
     "bg-[var(--accent)] text-[var(--accent-contrast)] shadow-[0_0_24px_var(--accent-glow)] hover:shadow-[0_0_36px_var(--accent-glow)]";
   const outline =

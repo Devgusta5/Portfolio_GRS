@@ -1,0 +1,81 @@
+Você é um desenvolvedor Frontend/Full Stack sênior especializado em Next.js.
+
+Preciso adicionar uma integração com a GitHub API no meu portfólio para exibir minha atividade recente de desenvolvimento.
+
+API disponível:
+https://api.github.com/users/GustavoRSilva/events/public
+
+Objetivo:
+Criar uma seção profissional de "Atividade recente" ou "Últimos commits" no portfólio, consumindo dados reais da API do GitHub.
+
+Requisitos:
+
+1. Antes de alterar qualquer arquivo:
+- Analise a estrutura atual do projeto.
+- Identifique o padrão usado de componentes, estilos e organização.
+- Não altere arquitetura existente sem necessidade.
+
+2. Integração da API:
+- Consuma os dados da API do GitHub.
+- Filtre apenas eventos relevantes de desenvolvimento (principalmente PushEvent).
+- Extraia:
+  - nome do repositório
+  - mensagem do commit
+  - data
+  - quantidade de commits
+  - link do repositório quando disponível
+
+3. Arquitetura:
+Use a forma mais profissional para Next.js:
+- Evite chamar a API diretamente no client se não for necessário.
+- Prefira criar uma camada intermediária (Route Handler/API interna) caso combine com a estrutura atual.
+- Evite expor lógica desnecessária no frontend.
+- Use boas práticas de cache/revalidação.
+
+4. Interface:
+Crie uma seção visual seguindo o design atual do portfólio.
+
+A UI deve ser:
+- minimalista
+- moderna
+- responsiva
+- alinhada com o restante do site
+
+Sugestão:
+Uma timeline ou cards pequenos mostrando:
+
+"Atividade recente"
+
+Exemplo:
+
+🟢 EtecNotes
+feat: adiciona sistema de horários
+
+há 2 dias
+
+Não faça uma seção exagerada.
+Ela deve complementar o portfólio.
+
+5. Tratamento de dados:
+Adicione:
+- estado de loading
+- fallback caso a API falhe
+- mensagem caso não existam commits recentes
+
+6. Performance:
+- Não faça chamadas desnecessárias.
+- Use cache quando possível.
+- Evite bibliotecas novas sem necessidade.
+
+7. Código:
+- Mantenha TypeScript.
+- Crie componentes reutilizáveis.
+- Siga os padrões já existentes.
+- Não quebre responsividade.
+
+Depois das alterações:
+- Rode npm run build.
+- Corrija qualquer erro encontrado.
+
+Antes de implementar:
+Me mostre quais arquivos pretende alterar e o plano de implementação.

@@ -33,7 +33,7 @@ export function SpotlightCard({
     <Comp
       ref={ref as never}
       onMouseMove={handleMouseMove}
-      className={`spotlight-card group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] transition-all duration-300 hover:border-[var(--accent)]/20 hover:shadow-xl hover:shadow-[var(--accent-glow-soft)] hover:scale-[1.02] ${className}`}
+      className={`spotlight-card group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] transition-all duration-300 hover:border-[var(--accent)]/20 hover:shadow-xl hover:shadow-[var(--accent-glow-soft)] hover:scale-[1.02] will-change-transform ${className}`}
       style={style}
     >
       <div

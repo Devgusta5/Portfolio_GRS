@@ -42,7 +42,7 @@ export function Timeline() {
                     : "border-[var(--border)] bg-[var(--card-bg)]"
                 }`}
               >
-                <div className="absolute inset-x-0 top-0 h-px bg-[var(--accent)] opacity-70 [animation:beam-slide_4.4s_ease-in-out_infinite]" />
+                <div className="absolute inset-x-0 top-0 h-px bg-[var(--accent)] opacity-70 [animation:beam-slide_4.4s_ease-in-out_forwards]" />
                 <div className="mb-9 flex items-center justify-between">
                   <span className="font-mono text-xs text-[var(--text-3)]">
                     checkpoint 0{index + 1}

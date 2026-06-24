@@ -11,6 +11,6 @@ export const REPOS: Repo[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: "GitHub - Devgusta5", url: `https://github.com/${GITHUB_USERNAME}`, kind: "github" },
-  { label: "LinkedIn", url: "https://linkedin.com", kind: "linkedin" },
-  { label: "Contato", url: "mailto:gustavo@email.com", kind: "email" },
+  { label: "LinkedIn", url: "https://linkedin.com/in/devgusta5", kind: "linkedin" },
+  { label: "Contato", url: "mailto:gusta.gu.112007.55@gmail.com", kind: "email" },
 ];

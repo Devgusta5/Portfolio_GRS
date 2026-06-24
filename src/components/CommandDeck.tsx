@@ -73,10 +73,10 @@ export function CommandDeck() {
               </span>
               <div className="flex items-center gap-1.5">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                  <span className="absolute inline-flex h-full w-full animate-beta-pulse rounded-full bg-[var(--accent)] opacity-75"></span>
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]"></span>
                 </span>
-                <span className="font-mono text-[9px] uppercase text-emerald-400 sm:text-[10px]">
+                <span className="font-mono text-[9px] uppercase text-[var(--accent)] sm:text-[10px]">
                   online
                 </span>
               </div>

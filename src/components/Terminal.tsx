@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback, type KeyboardEvent } from "re
 import { ROOT, INITIAL_PATH, type FsNode, type FsDir, type FsFile } from "@/data/filesystem";
 
 type OutputLine = {
-  type: "input" | "output" | "error" | "system";
+  type: "input" | "output" | "error" | "system" | "ascii";
   text: string;
 };
 
@@ -129,6 +129,9 @@ export function Terminal() {
       case "tree":
         cmdTree();
         break;
+      case "me":
+        cmdMe();
+        break;
       case "echo":
         addOutput("output", args.join(" "));
         break;
@@ -159,6 +162,7 @@ export function Terminal() {
       "   whoami              Exibe informacoes do usuario",
       "   ver                 Exibe versao do sistema",
       "   tree                Exibe arvore de diretorios",
+      "   me                  Exibe foto em ASCII art",
       "   echo <texto>        Repete um texto",
       "   date                Exibe data e hora atual",
     ]);
@@ -256,6 +260,18 @@ export function Terminal() {
     }
   }
 
+  function cmdMe() {
+    const osDir = getNodeAtPath(["C:", "GR", "OS"]);
+    if (!osDir || osDir.type !== "dir") return;
+    const node = osDir.children["me.txt"];
+    if (!node || node.type !== "text") {
+      addOutput("error", "Arquivo me.txt nao encontrado.");
+      return;
+    }
+    const content = (node as FsFile).content ?? "";
+    addOutput("ascii", content);
+  }
+
   function cmdWhoami() {
     addOutputLines("output", [
       "",
@@ -347,8 +363,7 @@ export function Terminal() {
             GR.OS Terminal
           </span>
           <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500 sm:h-2 sm:w-2" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] sm:h-2 sm:w-2" />
           </span>
         </div>
 
@@ -384,6 +399,7 @@ export function Terminal() {
                   ["open", "Secao/Link"],
                   ["cls", "Limpar"],
                   ["whoami", "Info usuario"],
+                  ["me", "ASCII art"],
                   ["tree", "Arvore"],
                 ].map(([cmd, desc]) => (
                   <div
@@ -412,46 +428,75 @@ export function Terminal() {
         </div>
       </div>
 
-      {/* Scrollable output */}
-      <div
-        ref={outputRef}
-        onClick={focusInput}
-        className="h-[220px] cursor-text overflow-y-auto bg-[var(--bg)] p-4 leading-relaxed scrollbar-thin sm:h-[270px] lg:h-[470px]"
-      >
-        {output.map((line, i) => (
-          <div
-            key={i}
-            className={`whitespace-pre-wrap break-all ${
-              line.type === "input"
-                ? "text-[var(--accent)]"
-                : line.type === "error"
-                  ? "text-red-400"
-                  : line.type === "system"
-                    ? "text-[var(--text-2)]"
-                    : "text-[var(--text)]"
-            }`}
-          >
-            {line.text}
-          </div>
-        ))}
-        <div ref={promptRef} />
-      </div>
+      {/* Terminal body */}
+      <div className="relative">
+        {/* Scrollable output with inline prompt */}
+        <div
+          ref={outputRef}
+          onClick={focusInput}
+          role="log"
+          aria-live="polite"
+          aria-label="Saída do terminal"
+          className="h-[220px] cursor-text overflow-y-auto bg-[var(--bg)] p-4 leading-relaxed scrollbar-thin sm:h-[270px] lg:h-[470px]"
+        >
+          {output.map((line, i) => (
+            <div key={i}>
+              {line.type === "ascii" ? (
+                <div className="ascii-art-wrap">
+                  <div className="ascii-art-text">{line.text}</div>
+                </div>
+              ) : (
+                <div
+                  className={`whitespace-pre-wrap break-all ${
+                    line.type === "input"
+                      ? "text-[var(--accent)]"
+                      : line.type === "error"
+                        ? "text-red-400"
+                        : line.type === "system"
+                          ? "text-[var(--text-2)]"
+                          : "text-[var(--text)]"
+                  }`}
+                >
+                  {line.text}
+                </div>
+              )}
+            </div>
+          ))}
 
-      {/* Fixed input line at bottom */}
-      <div className="flex items-center border-t border-[var(--border)] bg-[var(--bg)] px-4 py-2.5">
-        <span className="mr-2 shrink-0 text-[var(--accent)]">
-          {getDisplayPath()}&gt;
-        </span>
+          {/* Prompt + typed text + cursor (inline no output) */}
+          <div ref={promptRef} className="mt-0.5 flex items-center">
+            <span className="shrink-0 text-[var(--accent)]">
+              {getDisplayPath()}&gt;
+            </span>
+            <span className="whitespace-pre text-[var(--text)]">
+              {inputValue}
+            </span>
+            <span className="ml-0.5 h-[1em] w-[0.55em] animate-pulse bg-[var(--accent)]" />
+          </div>
+        </div>
+
+        {/* Botão visível para focar o input (mobile/accessibility) */}
+        <button
+          type="button"
+          onClick={() => inputRef.current?.focus()}
+          className="absolute bottom-1 left-1 z-10 rounded border border-[var(--border)] bg-[var(--bg-2)] px-2 py-0.5 text-[10px] text-[var(--text-3)] transition-colors hover:text-[var(--accent)] sm:hidden"
+          aria-label="Focar no terminal"
+        >
+          digitar comando
+        </button>
+
+        {/* Input oculto (1px) no canto inferior — só captura teclas, não atrapalha scroll */}
         <input
           ref={inputRef}
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="min-w-0 flex-1 bg-transparent text-[var(--text)] outline-none caret-[var(--accent)]"
+          className="absolute bottom-1 right-1 z-10 h-px w-px opacity-0"
           spellCheck={false}
           autoComplete="off"
           autoCapitalize="off"
+          aria-label="Digite um comando do terminal"
         />
       </div>
     </div>
