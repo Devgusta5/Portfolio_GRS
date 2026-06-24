@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const BOOT_LINES = [
   { text: "> GRS.OS v3.2.1", delay: 400 },
@@ -16,6 +16,7 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
   const [visibleLines, setVisibleLines] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
+  const finishedRef = useRef(false);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -23,9 +24,12 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
 
     if (prefersReduced || alreadySeen) {
       setFadeOut(true);
-      setTimeout(onFinish, 600);
-      return;
+      const t = setTimeout(() => { finishedRef.current = true; onFinish(); }, 500);
+      return () => clearTimeout(t);
     }
+
+    setVisibleLines(0);
+    setShowCursor(true);
 
     const timers: ReturnType<typeof setTimeout>[] = [];
 
@@ -35,13 +39,18 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
           setVisibleLines(i + 1);
 
           if (i === BOOT_LINES.length - 1) {
-            setTimeout(() => {
+            const t1 = setTimeout(() => {
               setFadeOut(true);
-              setTimeout(() => {
+              const t2 = setTimeout(() => {
                 localStorage.setItem(BOOT_SKIP_KEY, "true");
-                onFinish();
+                if (!finishedRef.current) {
+                  finishedRef.current = true;
+                  onFinish();
+                }
               }, 600);
+              timers.push(t2);
             }, 600);
+            timers.push(t1);
           }
         }, line.delay)
       );
@@ -66,10 +75,12 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
       <button
         type="button"
         onClick={() => {
+          if (finishedRef.current) return;
+          finishedRef.current = true;
           setFadeOut(true);
-          setTimeout(onFinish, 600);
+          setTimeout(onFinish, 500);
         }}
-        className="absolute right-4 top-4 rounded-lg border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-2)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+        className="absolute right-4 top-4 z-10 rounded-lg border border-[var(--border)] bg-[var(--bg-2)]/60 px-3 py-1.5 text-xs text-[var(--text-2)] backdrop-blur-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
         aria-label="Pular animacao de boot"
       >
         Skip

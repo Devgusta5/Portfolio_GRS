@@ -4,7 +4,6 @@ import { useState, useCallback } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { CapabilityMatrixSection } from "@/components/CapabilityMatrix";
-import { AboutSection } from "@/components/AboutSection";
 import { BentoSection } from "@/components/BentoSection";
 import { EtecNotesShowcase } from "@/components/EtecNotesShowcase";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
@@ -23,8 +22,7 @@ export default function Home() {
       <Navbar />
       <main id="main-content" className="flex-1">
         <Hero />
-        <Reveal delay={80}><CapabilityMatrixSection /></Reveal>
-        <Reveal delay={100}><AboutSection /></Reveal>
+        <Reveal delay={60}><CapabilityMatrixSection /></Reveal>
         <Reveal delay={120}><BentoSection /></Reveal>
         <Reveal delay={160}><EtecNotesShowcase /></Reveal>
         <Reveal delay={200}><ProjectsGrid /></Reveal>

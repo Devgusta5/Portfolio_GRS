@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { GITHUB_USERNAME } from "@/data/github";
 
 export const revalidate = 300;
 
@@ -23,7 +24,7 @@ export interface CommitActivity {
 export async function GET() {
   try {
     const res = await fetch(
-      "https://api.github.com/users/GustavoRSilva/events/public",
+      `https://api.github.com/users/${GITHUB_USERNAME}/events/public`,
       {
         headers: {
           Accept: "application/vnd.github.v3+json",

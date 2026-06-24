@@ -1,7 +1,9 @@
 import { PROJECTS } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function ProjectsGrid() {
+  const { t } = useLanguage();
   const featured = PROJECTS.filter((p) => p.featured);
   const quickList = PROJECTS.filter((p) => !p.featured);
 
@@ -11,15 +13,14 @@ export function ProjectsGrid() {
         <header className="mb-10 grid gap-5 md:grid-cols-[0.75fr_1fr] md:items-end">
           <div>
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.32em] text-[var(--accent)]">
-              Side quests / product labs
+              {t.projetos.label}
             </p>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Projetos secundarios com cara de experimento serio.
+              {t.projetos.title}
             </h2>
           </div>
           <p className="max-w-2xl text-sm leading-7 text-[var(--text-2)] md:justify-self-end">
-            Cada projeto ganha contexto de produto: qual problema toca, qual
-            fluxo principal resolve e quais tecnologias sustentam a experiencia.
+            {t.projetos.desc}
           </p>
         </header>
 
@@ -33,10 +34,10 @@ export function ProjectsGrid() {
           <div className="mt-10 rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-5">
             <div className="mb-4 flex items-center justify-between gap-4">
               <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--text-3)]">
-                extended repository field
+                {t.projetos.extended}
               </p>
               <span className="text-xs text-[var(--accent)]">
-                {quickList.length} more builds
+                {quickList.length} {t.projetos.more}
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-2">

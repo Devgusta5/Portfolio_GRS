@@ -6,6 +6,7 @@ interface TiltedCardProps {
   imageSrc: React.ComponentProps<'img'>['src'];
   altText?: string;
   captionText?: string;
+  captionContent?: React.ReactNode;
   containerHeight?: React.CSSProperties['height'];
   containerWidth?: React.CSSProperties['width'];
   imageHeight?: React.CSSProperties['height'];
@@ -28,6 +29,7 @@ export default function TiltedCard({
   imageSrc,
   altText = 'Tilted card image',
   captionText = '',
+  captionContent,
   containerHeight = '300px',
   containerWidth = '100%',
   imageHeight = '300px',
@@ -135,7 +137,7 @@ export default function TiltedCard({
 
       {showTooltip && (
         <motion.figcaption
-          className="pointer-events-none absolute left-0 top-0 rounded-[4px] bg-white px-[10px] py-[4px] text-[10px] text-[#2d2d2d] opacity-0 z-[3] hidden sm:block"
+          className="pointer-events-none absolute left-0 top-0 z-[3] hidden sm:block"
           style={{
             x,
             y,
@@ -143,7 +145,11 @@ export default function TiltedCard({
             rotate: rotateFigcaption
           }}
         >
-          {captionText}
+          {captionContent ?? (
+            <span className="block rounded-[4px] bg-white px-[10px] py-[4px] text-[10px] text-[#2d2d2d]">
+              {captionText}
+            </span>
+          )}
         </motion.figcaption>
       )}
     </figure>

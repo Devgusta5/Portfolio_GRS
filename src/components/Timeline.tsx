@@ -2,6 +2,7 @@ import { TIMELINE } from "@/data/timeline";
 import { TrophyIcon, BookIcon } from "./icons/TrophyIcon";
 import { GraduationIcon } from "./icons/MiscIcons";
 import type { TimelineIcon } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 
 const ICONS: Record<TimelineIcon, React.ComponentType<{ size?: number }>> = {
   education: BookIcon,
@@ -10,21 +11,22 @@ const ICONS: Record<TimelineIcon, React.ComponentType<{ size?: number }>> = {
 };
 
 export function Timeline() {
+  const { t } = useLanguage();
+
   return (
     <section id="trajetoria" className="px-6 py-20 sm:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <header className="mb-12 grid gap-5 md:grid-cols-[0.8fr_1fr] md:items-end">
           <div>
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.32em] text-[var(--accent)]">
-              Trajectory log
+              {t.timeline.label}
             </p>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              A linha do tempo tambem precisa parecer conquista.
+              {t.timeline.title}
             </h2>
           </div>
           <p className="max-w-2xl text-sm leading-7 text-[var(--text-2)] md:justify-self-end">
-            Educacao tecnica, hackathons e graduacao aparecem como marcos de
-            evolucao, nao como curriculo estatico.
+            {t.timeline.desc}
           </p>
         </header>
 

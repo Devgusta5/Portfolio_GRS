@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { CommitActivity } from "@/app/api/github/route";
+import { useLanguage } from "@/context/LanguageContext";
 
 function timeAgo(date: string) {
   const diff = Date.now() - new Date(date).getTime();
@@ -23,6 +24,7 @@ function RepoIcon({ size }: { size?: number }) {
 }
 
 export function RecentActivity() {
+  const { t } = useLanguage();
   const [commits, setCommits] = useState<CommitActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -44,10 +46,10 @@ export function RecentActivity() {
   }, []);
 
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-5">
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--text-3)]">
-          last commits
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-[var(--text-3)]">
+          {t.recent.title}
         </p>
         <span className="relative flex h-1.5 w-1.5">
           {loading && (
@@ -63,13 +65,13 @@ export function RecentActivity() {
       </div>
 
       {loading && (
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
+        <div className="space-y-2">
+          {[1, 2].map((i) => (
             <div
               key={i}
-              className="animate-pulse rounded-xl bg-[var(--card-hover)] p-3"
+              className="animate-pulse rounded-lg bg-[var(--card-hover)] p-2"
             >
-              <div className="mb-2 h-3 w-2/3 rounded bg-[var(--border)]" />
+              <div className="mb-1.5 h-2.5 w-2/3 rounded bg-[var(--border)]" />
               <div className="h-2 w-1/3 rounded bg-[var(--border)]" />
             </div>
           ))}
@@ -77,39 +79,39 @@ export function RecentActivity() {
       )}
 
       {error && (
-        <p className="py-6 text-center text-xs text-[var(--text-3)]">
-          Erro ao carregar atividade.
+        <p className="py-4 text-center text-[10px] text-[var(--text-3)]">
+          {t.recent.error}
         </p>
       )}
 
       {!loading && !error && commits.length === 0 && (
-        <p className="py-6 text-center text-xs text-[var(--text-3)]">
-          Nenhum commit recente.
+        <p className="py-4 text-center text-[10px] text-[var(--text-3)]">
+          {t.recent.empty}
         </p>
       )}
 
       {!loading && !error && commits.length > 0 && (
-        <div className="space-y-2.5">
-          {commits.map((commit, i) => (
+        <div className="space-y-1.5">
+          {commits.slice(0, 3).map((commit, i) => (
             <a
               key={`${commit.repo}-${commit.date}-${i}`}
               href={commit.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 p-3 transition-colors hover:border-[var(--border-2)]"
+              className="block rounded-lg border border-[var(--border)] bg-[var(--bg)]/50 p-2 transition-colors hover:border-[var(--border-2)]"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <span className="shrink-0 text-[var(--accent)]">
-                  <RepoIcon size={14} />
+                  <RepoIcon size={12} />
                 </span>
-                <p className="truncate text-xs font-medium text-[var(--text)]">
+                <p className="truncate text-[11px] font-medium text-[var(--text)]">
                   {commit.repo.split("/")[1]}
                 </p>
-                <span className="ml-auto shrink-0 font-mono text-[10px] text-[var(--text-3)]">
+                <span className="ml-auto shrink-0 font-mono text-[9px] text-[var(--text-3)]">
                   {timeAgo(commit.date)}
                 </span>
               </div>
-              <p className="mt-1 truncate text-[11px] text-[var(--text-2)]">
+              <p className="mt-0.5 truncate text-[10px] text-[var(--text-2)]">
                 {commit.message}
               </p>
             </a>

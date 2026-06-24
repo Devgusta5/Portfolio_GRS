@@ -3,6 +3,11 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MAIN_AXES, type CapabilityAxis } from "@/data/capabilities";
+import { ABOUT } from "@/data/about";
+import { useLanguage } from "@/context/LanguageContext";
+import TiltedCard from "./TiltedCard";
+import { BrazilFlag } from "./icons/BrazilFlag";
+import { Download, Eye, EyeOff } from "lucide-react";
 
 const CENTER = 100;
 const MAX_R = 82;
@@ -313,7 +318,9 @@ function SidePanelContent({ axis }: { axis: CapabilityAxis }) {
 }
 
 export function CapabilityMatrixSection() {
+  const { t } = useLanguage();
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -365,24 +372,44 @@ export function CapabilityMatrixSection() {
       className="px-6 py-20 sm:px-8 md:py-28"
     >
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
+        {/* Combined Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mb-10 max-w-3xl"
+          className="mb-8 max-w-3xl"
         >
           <p className="mb-3 font-mono text-xs uppercase tracking-[0.32em] text-[var(--accent)]">
-            Capability Matrix
+            {t.about.label}
           </p>
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Capacidades organizadas como atributos de produto.
+            {t.about.tagline}
           </h2>
           <p className="mt-4 text-sm leading-7 text-[var(--text-2)]">
-            Cada eixo representa uma dimensão real de desenvolvimento de produtos
-            digitais. Clique em qualquer eixo para explorar as habilidades que a
-            compõem.
+            {t.about.bio[0]}
           </p>
+        </motion.div>
+
+        {/* About highlights row */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+          className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4"
+        >
+              {t.about.highlights.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] p-3 text-center"
+            >
+              <p className="text-base font-semibold text-[var(--accent)]">
+                {item.value}
+              </p>
+              <p className="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-[var(--text-3)]">
+                {item.label}
+              </p>
+            </div>
+          ))}
         </motion.div>
 
         {/* Layout */}
@@ -400,39 +427,94 @@ export function CapabilityMatrixSection() {
               onSelect={handleSelect}
               onBack={handleBack}
             />
-            {/* Hint text */}
             {!selectedKey && (
               <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-3)] opacity-60">
-                Clique em um eixo para explorar
+                {t.matrix.hint}
               </p>
             )}
           </motion.div>
 
-          {/* Side Panel */}
+          {/* Side Panel — shows resume preview by default, drill-down on selection */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
           >
             <div className="relative min-h-[300px] rounded-3xl border border-[var(--border)] bg-[var(--card-bg)] p-6 sm:p-8">
-              {/* Pulse dot when no selection */}
               {!selectedAxis ? (
                 <motion.div
-                  key="empty"
+                  key="about"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex h-full min-h-[260px] items-center justify-center"
+                  className="flex flex-col gap-5"
                 >
-                  <div className="text-center">
-                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]">
-                      <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+                  <div className="mx-auto w-[180px] sm:w-[200px]">
+                    <TiltedCard
+                      imageSrc="/me.jpg"
+                      altText="Gustavo Rodrigues - Full Stack Developer"
+                      captionText=""
+                      containerHeight="220px"
+                      containerWidth="100%"
+                      imageHeight="220px"
+                      imageWidth="100%"
+                      scaleOnHover={1.03}
+                      rotateAmplitude={8}
+                      showMobileWarning={false}
+                      showTooltip={true}
+                      captionContent={
+                        <span className="flex items-center gap-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-medium text-[#2d2d2d] shadow-lg backdrop-blur-sm">
+                          <BrazilFlag size={12} />
+                          Brasil
+                        </span>
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <p className="text-center text-sm leading-6 text-[var(--text-2)]">
+                      {t.about.bio[2]}
+                    </p>
+                  </div>
+
+                  <div className="overflow-hidden rounded-xl border border-[var(--border)]">
+                    <div className="relative p-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">
+                            {t.resume.title}
+                          </p>
+                          <span className="text-[10px] text-[var(--text-3)]">.docx</span>
+                        </div>
+                        <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]/50 p-3">
+                          <div className="relative z-10 space-y-1 font-mono text-[10px] leading-relaxed text-[var(--text-3)]">
+                            <p className="text-[var(--text-2)]">EtecNotes — Co-criador (2025–atual)</p>
+                            <p className="text-[var(--text-2)]">Beyond — Desenvolvedor (2025)</p>
+                            <p className="text-[var(--accent)]">ADS — UNISANTA</p>
+                          </div>
+                          {!showPreview && (
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg)]/20 to-[var(--bg)]/80 backdrop-blur-[1px]" />
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowPreview((v) => !v)}
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-xs font-medium text-[var(--accent-contrast)] shadow-[0_0_16px_var(--accent-glow)] transition-all hover:shadow-[0_0_24px_var(--accent-glow)]"
+                        >
+                          {showPreview ? <EyeOff size={14} /> : <Eye size={14} />}
+                          {showPreview ? t.resume.ocultar : t.resume.visualizar}
+                        </button>
+                        <a
+                          href={ABOUT.resumeUrl}
+                          download
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[var(--border-2)] px-3 py-2 text-xs font-medium text-[var(--text)] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                        >
+                          <Download size={14} />
+                          {t.resume.baixar}
+                        </a>
+                      </div>
                     </div>
-                    <p className="text-sm font-medium text-[var(--text-3)]">
-                      Selecione um eixo do radar
-                    </p>
-                    <p className="mt-1 text-xs text-[var(--text-3)] opacity-60">
-                      para ver detalhes da capacidade
-                    </p>
                   </div>
                 </motion.div>
               ) : (

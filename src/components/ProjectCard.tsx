@@ -2,6 +2,7 @@
 import { ExternalLinkIcon } from "./icons/MiscIcons";
 import { GithubIcon } from "./icons/GithubIcon";
 import type { Project } from "@/types";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function ProjectCard({
   project,
@@ -10,6 +11,7 @@ export function ProjectCard({
   project: Project;
   index?: number;
 }) {
+  const { t } = useLanguage();
   return (
     <SpotlightCard as="article" className="flex h-full min-h-[320px] flex-col p-0">
       <div className="relative flex flex-1 flex-col overflow-hidden p-6">
@@ -66,7 +68,7 @@ export function ProjectCard({
             className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--accent)]"
           >
             <ExternalLinkIcon size={12} />
-            Ver ao vivo
+            {t.projetos.view}
           </a>
         )}
       </div>

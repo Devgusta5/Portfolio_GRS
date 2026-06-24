@@ -1,10 +1,12 @@
 ﻿import { ETECNOTES } from "@/data/etecnotes";
-import { CrossPlatformDisplay } from "./CrossPlatformDisplay";
 import { ShinyText } from "./ShinyText";
 import { ExternalLinkIcon } from "./icons/MiscIcons";
 import { GithubIcon } from "./icons/GithubIcon";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function EtecNotesShowcase() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="etecnotes"
@@ -13,37 +15,33 @@ export function EtecNotesShowcase() {
       <div className="absolute inset-x-0 top-10 mx-auto h-72 max-w-5xl rounded-full bg-[var(--accent-glow)] opacity-70 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl">
-        <div className="grid items-end gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="grid items-end gap-8 lg:grid-cols-[0.95fr_auto]">
           <div>
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.32em] text-[var(--accent)]">
-              Flagship / real product
+              {t.etecnotes.label}
             </p>
-            <h2 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-              {ETECNOTES.name} vira o centro gravitacional do portfolio.
+            <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+              {t.etecnotes.title}
             </h2>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--text-2)] sm:text-lg">
-              {ETECNOTES.description} A vitrine abaixo mostra a ideia como um
-              produto vivo: dashboard, app, metricas e sinais de operacao no
-              mesmo palco.
+            <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-2)] sm:text-base sm:leading-8">
+              {t.etecnotes.desc}
             </p>
-
-            <div className="mt-7 inline-flex items-center gap-3 overflow-hidden rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow-soft)] px-4 py-2 text-sm font-medium text-[var(--accent)]">
+            <div className="mt-5 inline-flex items-center gap-3 overflow-hidden rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow-soft)] px-4 py-2 text-sm font-medium text-[var(--accent)]">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
-              {ETECNOTES.usersBadge}
+              +1100 {t.etecnotes.users}
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {ETECNOTES.productSignals.map((signal) => (
+          <div className="flex gap-3">
+            {ETECNOTES.productSignals.slice(0, 2).map((signal) => (
               <div
                 key={signal.label}
-                className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-4"
+                className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-4"
               >
-                <div className="absolute inset-x-0 top-0 h-px bg-[var(--accent)] opacity-60" />
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-3)]">
                   {signal.label}
                 </p>
-                <p className="mt-3 text-sm leading-6 text-[var(--text)]">
+                <p className="mt-2 text-xs leading-5 text-[var(--text)]">
                   {signal.value}
                 </p>
               </div>
@@ -51,47 +49,32 @@ export function EtecNotesShowcase() {
           </div>
         </div>
 
-        <div className="mt-12 rounded-[28px] border border-[var(--border-2)] bg-[linear-gradient(135deg,var(--card-bg),transparent)] p-3 shadow-2xl md:p-5">
-          <div className="relative overflow-hidden rounded-[22px] border border-[var(--border)] bg-[var(--bg)]">
-            <div className="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,var(--text)_1px,transparent_0)] [background-size:28px_28px]" />
-            <div className="relative grid gap-8 p-5 md:p-8 lg:grid-cols-[1fr_240px]">
-              <CrossPlatformDisplay />
-
-              <aside className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-5">
-                <div className="mb-5 flex items-center justify-between">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--text-3)]">
-                    live feed
-                  </p>
-                  <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
-                </div>
-
-                <div className="space-y-3">
-                  {ETECNOTES.operationFeed.map((item, index) => (
-                    <div
-                      key={item}
-                      className="rounded-xl border border-[var(--border)] bg-[var(--bg)]/70 px-3 py-3"
-                    >
-                      <p className="font-mono text-[10px] text-[var(--accent)]">
-                        0{index + 1}
-                      </p>
-                      <p className="mt-1 text-xs text-[var(--text-2)]">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </aside>
+        <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border-2)] bg-[var(--bg-2)] shadow-xl">
+          <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--card-bg)] px-5 py-3">
+            <div className="flex items-center gap-2">
+              <span className="h-3 w-3 rounded-full bg-red-500" />
+              <span className="h-3 w-3 rounded-full bg-yellow-500" />
+              <span className="h-3 w-3 rounded-full bg-emerald-500" />
+            </div>
+            <div className="flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--bg)]/50 px-3 py-1">
+              <svg className="h-3 w-3 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <span className="font-mono text-[10px] text-[var(--text-3)]">
+                etecnotes.com.br
+              </span>
             </div>
           </div>
-        </div>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-          {ETECNOTES.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--text-2)]"
-            >
-              {tag}
-            </span>
-          ))}
+          <div className="relative aspect-[16/9] max-h-[650px] w-full overflow-hidden bg-[var(--bg)] lg:max-h-[600px]">
+            <iframe
+              src="https://etecnotes.com.br"
+              title="EtecNotes"
+              className="h-full w-full"
+              style={{ border: "none" }}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin"
+            />
+          </div>
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
@@ -102,7 +85,7 @@ export function EtecNotesShowcase() {
             className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-80"
           >
             <GithubIcon size={16} />
-            <ShinyText>Ver repositorio</ShinyText>
+            <ShinyText>{t.etecnotes.repo}</ShinyText>
           </a>
           <a
             href={ETECNOTES.liveUrl}
@@ -111,11 +94,10 @@ export function EtecNotesShowcase() {
             className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-80"
           >
             <ExternalLinkIcon size={15} />
-            <ShinyText>Acessar app ao vivo</ShinyText>
+            <ShinyText>{t.etecnotes.live}</ShinyText>
           </a>
         </div>
       </div>
     </section>
   );
 }
-

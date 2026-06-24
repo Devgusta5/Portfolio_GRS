@@ -4,6 +4,8 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { useRef, useState, useEffect } from 'react';
 import { THEMES } from '@/data/themes';
 import { useTheme } from '@/context/ThemeContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   Home,
   Layers,
@@ -50,14 +52,17 @@ function MailIcon({ size, fill: _f }: { size?: number; fill?: string }) {
   );
 }
 
-const NAV_LINKS = [
-  { label: 'Inicio', href: '#top', icon: Home },
-  { label: 'Matriz', href: '#capability-matrix', icon: Radar },
-  { label: 'Stack', href: '#stack', icon: Layers },
-  { label: 'EtecNotes', href: '#etecnotes', icon: BookOpen },
-  { label: 'Projetos', href: '#projetos', icon: FolderKanban },
-  { label: 'Trajetoria', href: '#trajetoria', icon: Route },
-];
+function useNavLinks() {
+  const { t } = useLanguage();
+  return [
+    { label: t.nav.inicio, href: '#top', icon: Home },
+    { label: t.nav.matriz, href: '#capability-matrix', icon: Radar },
+    { label: t.nav.stack, href: '#stack', icon: Layers },
+    { label: t.nav.etecnotes, href: '#etecnotes', icon: BookOpen },
+    { label: t.nav.projetos, href: '#projetos', icon: FolderKanban },
+    { label: t.nav.trajetoria, href: '#trajetoria', icon: Route },
+  ];
+}
 
 function DockItem({
   href,
@@ -359,6 +364,7 @@ function BetaBadge() {
 }
 
 export function Navbar() {
+  const NAV_LINKS = useNavLinks();
   const [activeSection, setActiveSection] = useState('#top');
 
   useEffect(() => {

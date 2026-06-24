@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeInitScript } from "@/components/ThemeInitScript";
+import { CustomCursor } from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Gustavo Rodrigues - Desenvolvedor Full Stack",
@@ -32,7 +34,10 @@ export default function RootLayout({
         >
           Pular para o conteudo
         </a>
-        <ThemeProvider>{children}</ThemeProvider>
+        <LanguageProvider><ThemeProvider>
+          {children}
+          <CustomCursor />
+        </ThemeProvider></LanguageProvider>
       </body>
     </html>
   );

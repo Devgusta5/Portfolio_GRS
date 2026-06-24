@@ -352,6 +352,15 @@ body::before {
   animation: beam-drift 8s ease-in-out infinite;
 }
 
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .animate-beta-pulse {
   animation: beta-pulse 1.2s ease-out 3;
 }
@@ -436,6 +445,11 @@ body::before {
   color: #e4e0d0;
   transform-origin: top left;
   transform: scale(0.12);
+}
+
+/* Hide default cursor on desktop */
+@media (hover: hover) and (pointer: fine) {
+  * { cursor: none !important; }
 }
 
 @layer base {

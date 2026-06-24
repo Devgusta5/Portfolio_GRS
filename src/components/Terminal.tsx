@@ -15,6 +15,7 @@ export function Terminal() {
     { type: "system", text: "Digite 'help' para comandos disponiveis." },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [cursorPos, setCursorPos] = useState(0);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [showHelp, setShowHelp] = useState(false);
@@ -320,6 +321,13 @@ export function Terminal() {
     if (e.key === "Enter") {
       processCommand(inputValue);
       setInputValue("");
+      setCursorPos(0);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setCursorPos(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setCursorPos(inputValue.length);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length === 0) return;
@@ -329,6 +337,7 @@ export function Terminal() {
           : Math.max(0, historyIndex - 1);
       setHistoryIndex(newIndex);
       setInputValue(commandHistory[newIndex]);
+      setCursorPos(commandHistory[newIndex].length);
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex === -1) return;
@@ -336,9 +345,11 @@ export function Terminal() {
       if (newIndex >= commandHistory.length) {
         setHistoryIndex(-1);
         setInputValue("");
+        setCursorPos(0);
       } else {
         setHistoryIndex(newIndex);
         setInputValue(commandHistory[newIndex]);
+        setCursorPos(commandHistory[newIndex].length);
       }
     } else if (e.key === "Tab") {
       e.preventDefault();
@@ -469,9 +480,12 @@ export function Terminal() {
               {getDisplayPath()}&gt;
             </span>
             <span className="whitespace-pre text-[var(--text)]">
-              {inputValue}
+              {inputValue.slice(0, cursorPos)}
             </span>
-            <span className="ml-0.5 h-[1em] w-[0.55em] animate-pulse bg-[var(--accent)]" />
+            <span className="inline-block h-[1em] w-[0.55em] animate-cursor-blink bg-[var(--accent)]" />
+            <span className="whitespace-pre text-[var(--text)]">
+              {inputValue.slice(cursorPos)}
+            </span>
           </div>
         </div>
 
@@ -490,8 +504,16 @@ export function Terminal() {
           ref={inputRef}
           type="text"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            setCursorPos(e.target.selectionStart ?? e.target.value.length);
+          }}
           onKeyDown={handleKeyDown}
+          onMouseUp={(e) => setCursorPos(e.currentTarget.selectionStart ?? inputValue.length)}
+          onKeyUp={(e) => {
+            const target = e.currentTarget;
+            setCursorPos(target.selectionStart ?? target.value.length);
+          }}
           className="absolute bottom-1 right-1 z-10 h-px w-px opacity-0"
           spellCheck={false}
           autoComplete="off"
