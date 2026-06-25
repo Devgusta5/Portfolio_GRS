@@ -1,9 +1,10 @@
 import type { SpringOptions } from 'motion/react';
 import { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
+import Image from 'next/image';
 
 interface TiltedCardProps {
-  imageSrc: React.ComponentProps<'img'>['src'];
+  imageSrc: string;
   altText?: string;
   captionText?: string;
   captionContent?: React.ReactNode;
@@ -24,6 +25,8 @@ const springValues: SpringOptions = {
   stiffness: 100,
   mass: 2
 };
+
+const MotionImage = motion.create(Image);
 
 export default function TiltedCard({
   imageSrc,
@@ -108,25 +111,23 @@ export default function TiltedCard({
         </div>
       )}
 
-      <motion.div
-        className="relative [transform-style:preserve-3d]"
-        style={{
-          width: imageWidth,
-          height: imageHeight,
-          rotateX,
-          rotateY,
-          scale
-        }}
-      >
-        <motion.img
-          src={imageSrc}
-          alt={altText}
-          className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]"
+        <motion.div
+          className="relative [transform-style:preserve-3d]"
           style={{
             width: imageWidth,
-            height: imageHeight
+            height: imageHeight,
+            rotateX,
+            rotateY,
+            scale
           }}
-        />
+        >
+          <MotionImage
+            src={imageSrc}
+            alt={altText}
+            fill
+            className="object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]"
+            sizes="(max-width: 640px) 260px, 300px"
+          />
 
         {displayOverlayContent && overlayContent && (
           <motion.div className="absolute top-0 left-0 z-[2] will-change-transform [transform:translateZ(30px)]">

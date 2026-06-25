@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { CapabilityMatrixSection } from "@/components/CapabilityMatrix";
@@ -15,6 +15,17 @@ import { Reveal } from "@/components/Reveal";
 export default function Home() {
   const [bootFinished, setBootFinished] = useState(false);
   const handleBootFinish = useCallback(() => setBootFinished(true), []);
+
+  useEffect(() => {
+    if (bootFinished) {
+      window.scrollTo(0, 0);
+    }
+  }, [bootFinished]);
+
+  useEffect(() => {
+    history.scrollRestoration = "manual";
+    return () => { history.scrollRestoration = "auto"; };
+  }, []);
 
   return (
     <>

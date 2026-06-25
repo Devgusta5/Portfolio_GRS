@@ -5,7 +5,6 @@ import { useRef, useState, useEffect } from 'react';
 import { THEMES } from '@/data/themes';
 import { useTheme } from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   Home,
   Layers,

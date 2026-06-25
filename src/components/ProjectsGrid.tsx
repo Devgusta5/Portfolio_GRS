@@ -1,4 +1,5 @@
 import { PROJECTS } from "@/data/projects";
+import type { Project } from "@/types";
 import { ProjectCard } from "./ProjectCard";
 import { Reveal } from "./Reveal";
 import { useLanguage } from "@/context/LanguageContext";
@@ -6,10 +7,13 @@ import { GithubIcon } from "./icons/GithubIcon";
 
 export function ProjectsGrid() {
   const { t } = useLanguage();
-  const featured = t.projetos.items.map((item, i) => ({
-    ...PROJECTS.filter((p) => p.featured)[i],
-    ...item,
-  }));
+  const featuredProjects = PROJECTS.filter((p) => p.featured);
+  const byName = new Map(featuredProjects.map((p) => [p.name, p]));
+  const featured = t.projetos.items.map((item) => {
+    const base = byName.get(item.name);
+    if (!base) return null;
+    return { ...base, ...item };
+  }).filter(Boolean) as Project[];
   const quickList = t.projetos.quick;
 
   return (

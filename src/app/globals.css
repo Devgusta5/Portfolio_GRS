@@ -227,11 +227,6 @@ body::before {
 
 /* Shared effects */
 
-.glass-nav {
-  background: var(--glass);
-  backdrop-filter: blur(20px);
-}
-
 .text-shiny {
   background: linear-gradient(
     90deg,
@@ -267,69 +262,6 @@ body::before {
   }
 }
 
-@keyframes blur-reveal {
-  from {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.8);
-  }
-}
-
-@keyframes scroll-bounce {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(4px);
-  }
-}
-
-@keyframes signal-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes float-soft {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes beam-slide {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(220%);
-  }
-}
-
 @keyframes beam-drift {
   0%,
   100% {
@@ -338,14 +270,6 @@ body::before {
   50% {
     transform: translateX(6%) rotate(var(--beam-rotate, 0deg));
   }
-}
-
-.animate-fade-up {
-  animation: fade-up 0.7s ease both;
-}
-
-.animate-blur-reveal {
-  animation: blur-reveal 0.9s ease both;
 }
 
 .animate-beam-drift {
