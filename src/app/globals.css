@@ -447,9 +447,13 @@ body::before {
   transform: scale(0.12);
 }
 
-/* Hide default cursor on desktop */
-@media (hover: hover) and (pointer: fine) {
-  * { cursor: none !important; }
+/* Custom cursor is handled by CustomCursor.tsx at runtime */
+
+/* Mobile dock clearance (avoids FOUC from JS) */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 80px;
+  }
 }
 
 @layer base {

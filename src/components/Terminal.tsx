@@ -481,7 +481,7 @@ export function Terminal() {
           role="log"
           aria-live="polite"
           aria-label="Saída do terminal"
-          className="h-[220px] cursor-text overflow-y-auto bg-[var(--bg)] p-4 leading-relaxed scrollbar-thin sm:h-[270px] lg:h-[470px]"
+          className="h-[260px] cursor-text overflow-y-auto bg-[var(--bg)] p-4 leading-relaxed scrollbar-thin sm:h-[320px] lg:h-[470px]"
         >
           {output.map((line, i) => (
             <div key={i}>

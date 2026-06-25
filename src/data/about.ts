@@ -13,5 +13,5 @@ export const ABOUT = {
     { label: "Projetos", value: "4+ entregues" },
     { label: "Stack", value: "React, Node.js, TypeScript" },
   ],
-  resumeUrl: "/curriculo.docx",
+  resumeUrl: "/Gustavo_Rodrigues.pdf",
 };

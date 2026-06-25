@@ -86,7 +86,7 @@ export function Timeline() {
                     <div className="hidden lg:block lg:w-1/2" />
 
                     {/* Card */}
-                    <div className={`relative w-full pl-12 sm:pl-0 lg:w-1/2 ${isLeft ? "lg:pr-10" : "lg:pl-10"}`}>
+                    <div className={`relative w-full sm:pl-12 lg:w-1/2 ${isLeft ? "lg:pr-10" : "lg:pl-10"}`}>
                       <div className={`relative overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:border-[var(--accent)]/30 hover:shadow-[0_0_24px_var(--accent-glow)] ${styles.border} ${styles.bg}`}>
                         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-60" />
 

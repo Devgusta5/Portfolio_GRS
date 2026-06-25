@@ -382,19 +382,6 @@ export function Navbar() {
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
-    if (isMobile) document.body.style.paddingBottom = '80px';
-    const handleResize = () => {
-      document.body.style.paddingBottom = window.innerWidth < 768 ? '80px' : '';
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      document.body.style.paddingBottom = '';
-    };
-  }, []);
-
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768;
     if (!isMobile) return;
 
     const onFocusIn = (e: FocusEvent) => {

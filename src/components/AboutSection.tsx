@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { ABOUT } from "@/data/about";
 import { useLanguage } from "@/context/LanguageContext";
 import { Reveal } from "./Reveal";
 import TiltedCard from "./TiltedCard";
 import { FlagIcon } from "./icons/FlagIcon";
-import { Download, Eye, EyeOff } from "lucide-react";
+import { Download, Eye } from "lucide-react";
 
 export function AboutSection() {
   const { t } = useLanguage();
-  const [showPreview, setShowPreview] = useState(false);
 
   return (
     <section
@@ -31,7 +29,7 @@ export function AboutSection() {
 
         <div className="grid gap-10 lg:grid-cols-[340px_1fr] lg:gap-14">
           <Reveal delay={80}>
-            <div className="mx-auto w-[260px] sm:w-[300px] lg:w-full">
+            <div className="mx-auto w-full max-w-[260px] sm:max-w-[300px] lg:max-w-none">
               <TiltedCard
                 imageSrc="/me.jpg"
                 altText="Gustavo Rodrigues - Full Stack Developer"
@@ -93,7 +91,7 @@ export function AboutSection() {
                         {t.resume.title}
                       </p>
                       <span className="text-[10px] text-[var(--text-3)]">
-                        .docx
+                        .pdf
                       </span>
                     </div>
 
@@ -112,30 +110,16 @@ export function AboutSection() {
                       </div>
                     </div>
 
-                    <div className="relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 p-4">
-                      <div className="relative z-10 space-y-2 font-mono text-[10px] leading-relaxed text-[var(--text-3)]">
-                        <p>Experiencia Profissional</p>
-                        <p className="text-[var(--text-2)]">EtecNotes — Co-criador (2025–atual)</p>
-                        <p className="pl-3">Plataforma full-stack educacional com React,</p>
-                        <p className="pl-3">Node.js e arquitetura em producao.</p>
-                        <p className="pt-1 text-[var(--text-2)]">Beyond — Desenvolvedor (2025)</p>
-                        <p className="pl-3">4 projetos em squads de 8-12 pessoas.</p>
-                        <p className="pt-2 text-[var(--accent)]">Formacao: ADS — UNISANTA (cursando)</p>
-                      </div>
-                      {!showPreview && (
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg)]/20 to-[var(--bg)]/80 backdrop-blur-[1px]" />
-                      )}
                     </div>
-                  </div>
 
-                  <div className="relative z-10 mt-4 flex gap-3">
+                    <div className="mt-6 flex gap-3">
                     <button
                       type="button"
-                      onClick={() => setShowPreview((v) => !v)}
+                      onClick={() => window.open(ABOUT.resumeUrl, "_blank")}
                       className="flex flex-1 items-center justify-center gap-2 rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--accent-contrast)] shadow-[0_0_20px_var(--accent-glow)] transition-all hover:shadow-[0_0_30px_var(--accent-glow)]"
                     >
-                      {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
-                      {showPreview ? t.resume.ocultar : t.resume.visualizar}
+                      <Eye size={16} />
+                      {t.resume.visualizar}
                     </button>
                     <a
                       href={ABOUT.resumeUrl}

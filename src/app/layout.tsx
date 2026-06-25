@@ -27,7 +27,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col lg:pl-20">
+      <body className="min-h-full flex flex-col md:pl-20">
         <a
           href="#main-content"
           className="fixed -left-full top-2 z-[100] rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-2 text-sm text-[var(--text)] shadow-2xl transition-all focus:left-2 focus:outline-2 focus:outline-[var(--accent)]"

@@ -7,7 +7,7 @@ import { ABOUT } from "@/data/about";
 import { useLanguage } from "@/context/LanguageContext";
 import TiltedCard from "./TiltedCard";
 import { FlagIcon } from "./icons/FlagIcon";
-import { Download, Eye, EyeOff } from "lucide-react";
+import { Download, Eye } from "lucide-react";
 
 const CENTER = 100;
 const MAX_R = 82;
@@ -320,7 +320,6 @@ function SidePanelContent({ axis }: { axis: CapabilityAxis }) {
 export function CapabilityMatrixSection() {
   const { t } = useLanguage();
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [showPreview, setShowPreview] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -480,27 +479,17 @@ export function CapabilityMatrixSection() {
                           <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
                             {t.resume.title}
                           </p>
-                          <span className="text-xs text-[var(--text-3)]">.docx</span>
-                        </div>
-                        <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]/50 p-4">
-                          <div className="relative z-10 space-y-1.5 font-mono text-xs leading-relaxed text-[var(--text-3)]">
-                            <p className="text-sm text-[var(--text-2)]">EtecNotes — Co-criador (2025–atual)</p>
-                            <p className="text-sm text-[var(--text-2)]">Beyond — Desenvolvedor (2025)</p>
-                            <p className="text-sm text-[var(--accent)]">ADS — UNISANTA</p>
-                          </div>
-                          {!showPreview && (
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg)]/20 to-[var(--bg)]/80 backdrop-blur-[1px]" />
-                          )}
+                          <span className="text-xs text-[var(--text-3)]">.pdf</span>
                         </div>
                       </div>
                       <div className="mt-4 flex gap-3">
                         <button
                           type="button"
-                          onClick={() => setShowPreview((v) => !v)}
+                          onClick={() => window.open(ABOUT.resumeUrl, "_blank")}
                           className="flex flex-1 items-center justify-center gap-2 rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--accent-contrast)] shadow-[0_0_20px_var(--accent-glow)] transition-all hover:shadow-[0_0_30px_var(--accent-glow)]"
                         >
-                          {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
-                          {showPreview ? t.resume.ocultar : t.resume.visualizar}
+                          <Eye size={16} />
+                          {t.resume.visualizar}
                         </button>
                         <a
                           href={ABOUT.resumeUrl}
