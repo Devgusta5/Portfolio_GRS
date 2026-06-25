@@ -50,11 +50,30 @@ export type Translations = {
     extended: string;
     more: string;
     view: string;
+    items: {
+      name: string;
+      description: string;
+      angle: string;
+      signal: string;
+      impact?: string;
+      status?: string;
+      repoUrl?: string;
+    }[];
+    quick: {
+      name: string;
+      description: string;
+      url?: string;
+    }[];
   };
   timeline: {
     label: string;
     title: string;
     desc: string;
+    entries: {
+      title: string;
+      description: string;
+      period: string;
+    }[];
   };
   footer: {
     label: string;

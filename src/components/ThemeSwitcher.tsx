@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { THEMES } from "@/data/themes";
 import { useTheme } from "@/context/ThemeContext";
-import { ChevronDownIcon } from "./icons/MiscIcons";
+import { ChevronDownIcon, PaintIcon } from "./icons/MiscIcons";
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
@@ -29,14 +29,16 @@ export function ThemeSwitcher() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card-bg)] px-3 py-1.5 text-xs text-[var(--text-2)] transition-colors hover:border-[var(--border-2)] hover:text-[var(--text)]"
+        title="Alterar tema"
+        className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card-bg)] px-3 py-1.5 text-xs text-[var(--text-2)] transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--accent-glow-soft)] hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
       >
+        <PaintIcon size={13} className="shrink-0 opacity-60" />
         <span
-          className="h-2.5 w-2.5 rounded-full"
+          className="h-2.5 w-2.5 rounded-full ring-1 ring-inset ring-[var(--border)]"
           style={{ backgroundColor: current.swatch, boxShadow: `0 0 8px ${current.swatch}` }}
           suppressHydrationWarning
         />
-        <span className="hidden sm:inline">{current.label}</span>
+        <span>{current.label}</span>
         <ChevronDownIcon
           size={12}
           className={`transition-transform ${open ? "rotate-180" : ""}`}

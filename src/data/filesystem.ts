@@ -162,14 +162,19 @@ Digite 'help' para comandos completos.`),
   Projeto de conclusão: EtecNotes
 
   2023 - 2024
-  2x Hackathon Winner consecutivos
-  Primeiro lugar em hackathons regionais
-  Soluções de impacto social em 48h
+  Instrutor de Programação
+  Beyond
+  Ensino de robótica, lógica e programação
 
   2024 - Atual
   Graduando em Análise e Desenvolvimento de Sistemas
   UNISANTA - Universidade Santa Cecília
-  Arquitetura, Produto & Engenharia de Dados`),
+  Arquitetura, Produto & Engenharia de Dados
+
+  2025 - Atual
+  Creator - EtecNotes
+  Plataforma de notas escolares com IA
+  14 meses construindo produto com impacto real`),
 
     "achievements.txt": text(`CONQUISTAS
 ──────────

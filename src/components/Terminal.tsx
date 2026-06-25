@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback, type KeyboardEvent } from "react";
 import { ROOT, INITIAL_PATH, type FsNode, type FsDir, type FsFile } from "@/data/filesystem";
+import { THEMES } from "@/data/themes";
+import { useTheme } from "@/context/ThemeContext";
 
 type OutputLine = {
   type: "input" | "output" | "error" | "system" | "ascii";
@@ -9,6 +11,7 @@ type OutputLine = {
 };
 
 export function Terminal() {
+  const { theme, setTheme } = useTheme();
   const [currentPath, setCurrentPath] = useState<string[]>([...INITIAL_PATH]);
   const [output, setOutput] = useState<OutputLine[]>([
     { type: "system", text: "GR.OS Terminal v3.2.1" },
@@ -139,6 +142,32 @@ export function Terminal() {
       case "date":
         addOutput("output", new Date().toLocaleString("pt-BR"));
         break;
+      case "theme": {
+        const target = args[0]?.toLowerCase();
+        if (!target) {
+          addOutput("output", `Tema atual: ${theme}`);
+          addOutput("output", `Temas: ${THEMES.map((t) => t.id).join(", ")}`);
+          break;
+        }
+        const match = THEMES.find((t) => t.id === target);
+        if (match) {
+          setTheme(match.id);
+          addOutput("system", `Tema alterado para ${match.label}.`);
+        } else {
+          addOutput("error", `Tema '${target}' nao encontrado.`);
+          addOutput("output", `Temas: ${THEMES.map((t) => t.id).join(", ")}`);
+        }
+        break;
+      }
+      case "etecnotes":
+        const section = document.getElementById("etecnotes");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+          addOutput("system", "Abrindo EtecNotes...");
+        } else {
+          addOutput("error", "Secao 'etecnotes' nao encontrada.");
+        }
+        break;
       default:
         addOutput(
           "error",
@@ -166,6 +195,8 @@ export function Terminal() {
       "   me                  Exibe foto em ASCII art",
       "   echo <texto>        Repete um texto",
       "   date                Exibe data e hora atual",
+      "   theme [nome]        Exibe ou altera o tema",
+      "   etecnotes           Abre a secao do EtecNotes",
     ]);
   }
 
@@ -412,6 +443,8 @@ export function Terminal() {
                   ["whoami", "Info usuario"],
                   ["me", "ASCII art"],
                   ["tree", "Arvore"],
+                  ["theme", "Alterar tema"],
+                  ["etecnotes", "Abrir EtecNotes"],
                 ].map(([cmd, desc]) => (
                   <div
                     key={cmd}
@@ -488,16 +521,6 @@ export function Terminal() {
             </span>
           </div>
         </div>
-
-        {/* Botão visível para focar o input (mobile/accessibility) */}
-        <button
-          type="button"
-          onClick={() => inputRef.current?.focus()}
-          className="absolute bottom-1 left-1 z-10 rounded border border-[var(--border)] bg-[var(--bg-2)] px-2 py-0.5 text-[10px] text-[var(--text-3)] transition-colors hover:text-[var(--accent)] sm:hidden"
-          aria-label="Focar no terminal"
-        >
-          digitar comando
-        </button>
 
         {/* Input oculto (1px) no canto inferior — só captura teclas, não atrapalha scroll */}
         <input

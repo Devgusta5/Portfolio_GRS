@@ -4,11 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Lang } from "@/types/i18n";
 import { motion, AnimatePresence } from "motion/react";
+import { FlagIcon } from "./icons/FlagIcon";
 
-const OPTIONS: { lang: Lang; flag: string; label: string }[] = [
-  { lang: "pt", flag: "🇧🇷", label: "Português" },
-  { lang: "en", flag: "🇺🇸", label: "English" },
-  { lang: "es", flag: "🇪🇸", label: "Español" },
+const OPTIONS: { lang: Lang; label: string }[] = [
+  { lang: "pt", label: "Português" },
+  { lang: "en", label: "English" },
+  { lang: "es", label: "Español" },
 ];
 
 export function LanguageSwitcher() {
@@ -34,7 +35,7 @@ export function LanguageSwitcher() {
         className="group flex items-center gap-2 rounded-lg border border-[var(--border-2)] bg-[var(--bg-2)]/50 px-2.5 py-1.5 text-xs font-medium text-[var(--text-2)] backdrop-blur-sm transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_12px_var(--accent-glow)]"
         aria-label="Mudar idioma"
       >
-        <span className="text-sm leading-none">{active.flag}</span>
+        <FlagIcon lang={active.lang} size={18} />
         <span className="font-mono text-[11px] font-semibold tracking-wider">
           {active.lang.toUpperCase()}
         </span>
@@ -73,7 +74,7 @@ export function LanguageSwitcher() {
                       : "text-[var(--text-2)] hover:bg-[var(--card-hover)] hover:text-[var(--text)]"
                   }`}
                 >
-                  <span className="text-base leading-none">{opt.flag}</span>
+                  <FlagIcon lang={opt.lang} size={18} />
                   <span className="flex-1 font-medium">{opt.label}</span>
                   {isActive && (
                     <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

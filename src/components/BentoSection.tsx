@@ -6,18 +6,18 @@ export function BentoSection() {
   const { t } = useLanguage();
 
   return (
-    <section id="stack" className="px-6 py-16 sm:px-8 md:py-20">
+    <section id="stack" className="px-6 py-20 sm:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-8 grid gap-4 md:grid-cols-[0.75fr_1fr] md:items-end">
+        <header className="mb-10 grid gap-5 md:grid-cols-[0.75fr_1fr] md:items-end">
           <div>
-            <p className="mb-2 font-mono text-xs uppercase tracking-[0.32em] text-[var(--accent)]">
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.32em] text-[var(--accent)]">
               {t.stack.label}
             </p>
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t.stack.title}
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-[var(--text-2)] md:justify-self-end">
+          <p className="max-w-2xl text-sm leading-7 text-[var(--text-2)] md:justify-self-end">
             {t.stack.desc}
           </p>
         </header>

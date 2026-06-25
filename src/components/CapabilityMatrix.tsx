@@ -6,7 +6,7 @@ import { MAIN_AXES, type CapabilityAxis } from "@/data/capabilities";
 import { ABOUT } from "@/data/about";
 import { useLanguage } from "@/context/LanguageContext";
 import TiltedCard from "./TiltedCard";
-import { BrazilFlag } from "./icons/BrazilFlag";
+import { FlagIcon } from "./icons/FlagIcon";
 import { Download, Eye, EyeOff } from "lucide-react";
 
 const CENTER = 100;
@@ -395,7 +395,7 @@ export function CapabilityMatrixSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-          className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4"
+          className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-4"
         >
               {t.about.highlights.map((item) => (
             <div
@@ -413,7 +413,7 @@ export function CapabilityMatrixSection() {
         </motion.div>
 
         {/* Layout */}
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
           {/* Radar */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -440,7 +440,7 @@ export function CapabilityMatrixSection() {
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
           >
-            <div className="relative min-h-[300px] rounded-3xl border border-[var(--border)] bg-[var(--card-bg)] p-6 sm:p-8">
+            <div className="relative min-h-[400px] rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-6 sm:p-7">
               {!selectedAxis ? (
                 <motion.div
                   key="about"
@@ -448,25 +448,22 @@ export function CapabilityMatrixSection() {
                   animate={{ opacity: 1 }}
                   className="flex flex-col gap-5"
                 >
-                  <div className="mx-auto w-[180px] sm:w-[200px]">
+                  <div className="mx-auto w-[220px] sm:w-[260px]">
                     <TiltedCard
                       imageSrc="/me.jpg"
                       altText="Gustavo Rodrigues - Full Stack Developer"
                       captionText=""
-                      containerHeight="220px"
+                      containerHeight="260px"
                       containerWidth="100%"
-                      imageHeight="220px"
+                      imageHeight="260px"
                       imageWidth="100%"
                       scaleOnHover={1.03}
                       rotateAmplitude={8}
                       showMobileWarning={false}
                       showTooltip={true}
                       captionContent={
-                        <span className="flex items-center gap-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-medium text-[#2d2d2d] shadow-lg backdrop-blur-sm">
-                          <BrazilFlag size={12} />
-                          Brasil
-                        </span>
-                      }
+                          <FlagIcon lang="pt" size={64} />
+                        }
                     />
                   </div>
 
@@ -477,40 +474,40 @@ export function CapabilityMatrixSection() {
                   </div>
 
                   <div className="overflow-hidden rounded-xl border border-[var(--border)]">
-                    <div className="relative p-4">
-                      <div className="space-y-2">
+                    <div className="relative p-5">
+                      <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">
+                          <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
                             {t.resume.title}
                           </p>
-                          <span className="text-[10px] text-[var(--text-3)]">.docx</span>
+                          <span className="text-xs text-[var(--text-3)]">.docx</span>
                         </div>
-                        <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]/50 p-3">
-                          <div className="relative z-10 space-y-1 font-mono text-[10px] leading-relaxed text-[var(--text-3)]">
-                            <p className="text-[var(--text-2)]">EtecNotes — Co-criador (2025–atual)</p>
-                            <p className="text-[var(--text-2)]">Beyond — Desenvolvedor (2025)</p>
-                            <p className="text-[var(--accent)]">ADS — UNISANTA</p>
+                        <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]/50 p-4">
+                          <div className="relative z-10 space-y-1.5 font-mono text-xs leading-relaxed text-[var(--text-3)]">
+                            <p className="text-sm text-[var(--text-2)]">EtecNotes — Co-criador (2025–atual)</p>
+                            <p className="text-sm text-[var(--text-2)]">Beyond — Desenvolvedor (2025)</p>
+                            <p className="text-sm text-[var(--accent)]">ADS — UNISANTA</p>
                           </div>
                           {!showPreview && (
                             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg)]/20 to-[var(--bg)]/80 backdrop-blur-[1px]" />
                           )}
                         </div>
                       </div>
-                      <div className="mt-3 flex gap-2">
+                      <div className="mt-4 flex gap-3">
                         <button
                           type="button"
                           onClick={() => setShowPreview((v) => !v)}
-                          className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-xs font-medium text-[var(--accent-contrast)] shadow-[0_0_16px_var(--accent-glow)] transition-all hover:shadow-[0_0_24px_var(--accent-glow)]"
+                          className="flex flex-1 items-center justify-center gap-2 rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--accent-contrast)] shadow-[0_0_20px_var(--accent-glow)] transition-all hover:shadow-[0_0_30px_var(--accent-glow)]"
                         >
-                          {showPreview ? <EyeOff size={14} /> : <Eye size={14} />}
+                          {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
                           {showPreview ? t.resume.ocultar : t.resume.visualizar}
                         </button>
                         <a
                           href={ABOUT.resumeUrl}
                           download
-                          className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[var(--border-2)] px-3 py-2 text-xs font-medium text-[var(--text)] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                          className="flex flex-1 items-center justify-center gap-2 rounded-full border border-[var(--border-2)] px-4 py-2.5 text-sm font-medium text-[var(--text)] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
                         >
-                          <Download size={14} />
+                          <Download size={16} />
                           {t.resume.baixar}
                         </a>
                       </div>

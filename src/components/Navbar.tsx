@@ -14,6 +14,7 @@ import {
   Route,
   Radar,
   MessageCircle,
+  Palette,
 } from 'lucide-react';
 
 function GithubIcon({ size, fill: _f }: { size?: number; fill?: string }) {
@@ -288,11 +289,7 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
           style={{ touchAction: 'manipulation' }}
           aria-label="Trocar tema"
         >
-          <span
-            className="h-3 w-3 rounded-full ring-1 ring-[var(--border-2)] transition-transform hover:scale-110"
-            style={{ backgroundColor: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
-            suppressHydrationWarning
-          />
+          <Palette size={14} />
         </button>
         {open && (
           <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2">
@@ -327,11 +324,7 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
         className="relative flex items-center justify-center rounded-xl border border-[var(--border-2)] p-2.5 text-[var(--text-3)] transition-colors hover:border-[var(--text-3)] hover:text-[var(--text-2)]"
         aria-label="Trocar tema"
       >
-        <span
-          className="h-3 w-3 rounded-full ring-1 ring-[var(--border-2)] transition-transform hover:scale-110"
-          style={{ backgroundColor: current.swatch, boxShadow: `0 0 10px ${current.swatch}` }}
-          suppressHydrationWarning
-        />
+        <Palette size={14} />
       </button>
 
       <AnimatePresence>

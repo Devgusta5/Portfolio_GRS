@@ -10,7 +10,7 @@ const BOOT_LINES = [
   { text: "> System ready.", delay: 2400 },
 ];
 
-const BOOT_SKIP_KEY = "grs-portfolio-boot-skipped";
+
 
 export function BootLoader({ onFinish }: { onFinish: () => void }) {
   const [visibleLines, setVisibleLines] = useState(0);
@@ -20,9 +20,8 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const alreadySeen = localStorage.getItem(BOOT_SKIP_KEY) === "true";
 
-    if (prefersReduced || alreadySeen) {
+    if (prefersReduced) {
       setFadeOut(true);
       const t = setTimeout(() => { finishedRef.current = true; onFinish(); }, 500);
       return () => clearTimeout(t);
@@ -42,7 +41,6 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
             const t1 = setTimeout(() => {
               setFadeOut(true);
               const t2 = setTimeout(() => {
-                localStorage.setItem(BOOT_SKIP_KEY, "true");
                 if (!finishedRef.current) {
                   finishedRef.current = true;
                   onFinish();
@@ -72,20 +70,6 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      <button
-        type="button"
-        onClick={() => {
-          if (finishedRef.current) return;
-          finishedRef.current = true;
-          setFadeOut(true);
-          setTimeout(onFinish, 500);
-        }}
-        className="absolute right-4 top-4 z-10 rounded-lg border border-[var(--border)] bg-[var(--bg-2)]/60 px-3 py-1.5 text-xs text-[var(--text-2)] backdrop-blur-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
-        aria-label="Pular animacao de boot"
-      >
-        Skip
-      </button>
-
       <div className="w-full max-w-md px-6">
         <div className="mb-6 h-px bg-[var(--border-2)]" />
 

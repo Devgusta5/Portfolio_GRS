@@ -1,7 +1,6 @@
 ﻿import { ETECNOTES } from "@/data/etecnotes";
 import { ShinyText } from "./ShinyText";
 import { ExternalLinkIcon } from "./icons/MiscIcons";
-import { GithubIcon } from "./icons/GithubIcon";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function EtecNotesShowcase() {
@@ -78,15 +77,6 @@ export function EtecNotesShowcase() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-          <a
-            href={ETECNOTES.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-80"
-          >
-            <GithubIcon size={16} />
-            <ShinyText>{t.etecnotes.repo}</ShinyText>
-          </a>
           <a
             href={ETECNOTES.liveUrl}
             target="_blank"

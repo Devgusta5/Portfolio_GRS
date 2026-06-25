@@ -38,9 +38,11 @@ export interface Project {
   featured?: boolean;
   angle?: string;
   signal?: string;
+  status?: string;
+  impact?: string;
 }
 
-export type TimelineIcon = "education" | "trophy" | "graduation";
+export type TimelineIcon = "education" | "trophy" | "graduation" | "work" | "build";
 
 export interface TimelineEntry {
   period: string;

@@ -5,7 +5,7 @@ import { ABOUT } from "@/data/about";
 import { useLanguage } from "@/context/LanguageContext";
 import { Reveal } from "./Reveal";
 import TiltedCard from "./TiltedCard";
-import { BrazilFlag } from "./icons/BrazilFlag";
+import { FlagIcon } from "./icons/FlagIcon";
 import { Download, Eye, EyeOff } from "lucide-react";
 
 export function AboutSection() {
@@ -45,11 +45,8 @@ export function AboutSection() {
                 showMobileWarning={false}
                 showTooltip={true}
                 captionContent={
-                  <span className="flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-[#2d2d2d] shadow-lg backdrop-blur-sm">
-                    <BrazilFlag size={16} />
-                    Brasil
-                  </span>
-                }
+                    <FlagIcon lang="pt" size={64} />
+                  }
               />
             </div>
           </Reveal>
