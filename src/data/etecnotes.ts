@@ -16,7 +16,7 @@ export const ETECNOTES = {
     "mobile: push preparado",
     "web: dashboard hidratado",
   ],
-  repoUrl: "https://github.com/Devgusta5/EtecNotes",
+  repoUrl: "https://github.com/Devgusta5/EtecNotes-App",
   liveUrl: "https://etecnotes.com.br",
   stats: [
     { label: "Usuarios", value: "1.1K" },
