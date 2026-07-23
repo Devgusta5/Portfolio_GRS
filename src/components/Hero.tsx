@@ -3,7 +3,9 @@
 import { Terminal } from "@/components/Terminal";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { VisitorCounter } from "./VisitorCounter";
+import { MagneticButton } from "./MagneticButton";
 import { useLanguage } from "@/context/LanguageContext";
+import { ABOUT } from "@/data/about";
 import DotFieldBackground from "./DotFieldBackground";
 
 export function Hero() {
@@ -50,6 +52,18 @@ export function Hero() {
           <h1 className="text-4xl font-semibold leading-[0.96] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
             Gustavo Rodrigues
           </h1>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <MagneticButton href="#etecnotes">{t.hero.cta_projects}</MagneticButton>
+            <MagneticButton
+              href={ABOUT.resumeUrl}
+              variant="outline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t.hero.cta_resume}
+            </MagneticButton>
+          </div>
         </div>
 
         {/* Right: Terminal */}

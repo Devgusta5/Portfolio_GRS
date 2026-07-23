@@ -13,6 +13,8 @@ export type Translations = {
     subtitle: string;
     status_open: string;
     status_freelance: string;
+    cta_projects: string;
+    cta_resume: string;
   };
   about: {
     label: string;

@@ -13,6 +13,8 @@ const en: Translations = {
     subtitle: "Full Stack Developer",
     status_open: "Open to Work",
     status_freelance: "Open to Freelance",
+    cta_projects: "View EtecNotes",
+    cta_resume: "Download resume",
   },
   about: {
     label: "About / Capability Matrix",
