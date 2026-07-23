@@ -51,6 +51,7 @@ const pt: Translations = {
     users: "Usuarios Cadastrados",
     repo: "Ver repositorio",
     live: "Acessar Sistema na web",
+    loadPreview: "Carregar preview ao vivo",
   },
   projetos: {
     label: "Side quests / product labs",

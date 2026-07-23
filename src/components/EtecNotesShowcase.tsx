@@ -1,10 +1,14 @@
-﻿import { ETECNOTES } from "@/data/etecnotes";
+﻿"use client";
+
+import { useState } from "react";
+import { ETECNOTES } from "@/data/etecnotes";
 import { ShinyText } from "./ShinyText";
 import { ExternalLinkIcon } from "./icons/MiscIcons";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function EtecNotesShowcase() {
   const { t } = useLanguage();
+  const [previewLoaded, setPreviewLoaded] = useState(false);
 
   return (
     <section
@@ -65,14 +69,56 @@ export function EtecNotesShowcase() {
             </div>
           </div>
           <div className="relative h-[600px] w-full overflow-hidden bg-[var(--bg)] sm:h-[780px] lg:h-[960px]">
-            <iframe
-              src="https://etecnotes.com.br"
-              title="EtecNotes"
-              className="h-full w-full"
-              style={{ border: "none" }}
-              loading="lazy"
-              sandbox="allow-scripts allow-same-origin"
-            />
+            {previewLoaded ? (
+              <iframe
+                src="https://etecnotes.com.br"
+                title="EtecNotes"
+                className="h-full w-full"
+                style={{ border: "none" }}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPreviewLoaded(true)}
+                aria-label={t.etecnotes.loadPreview}
+                className="group absolute inset-0 flex flex-col items-center justify-center gap-7 bg-[var(--bg)]"
+              >
+                {/* Esqueleto sutil de dashboard so pra dar contexto visual */}
+                <div className="pointer-events-none absolute inset-0 flex gap-4 p-8 opacity-[0.12] sm:p-12">
+                  <div className="hidden w-40 shrink-0 flex-col gap-3 sm:flex">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="h-3 rounded bg-[var(--text)]" style={{ width: `${60 + ((i * 13) % 40)}%` }} />
+                    ))}
+                  </div>
+                  <div className="flex flex-1 flex-col gap-4">
+                    <div className="grid grid-cols-3 gap-4">
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="h-20 rounded-xl border border-[var(--text)]" />
+                      ))}
+                    </div>
+                    <div className="h-full rounded-xl border border-[var(--text)]" />
+                  </div>
+                </div>
+
+                <div className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-64 max-w-2xl rounded-full bg-[var(--accent-glow)] opacity-60 blur-[100px]" />
+
+                <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[var(--accent)]/40 bg-[var(--accent-glow-soft)] text-[var(--accent)] shadow-[0_0_30px_var(--accent-glow)] transition-transform duration-300 group-hover:scale-110">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+
+                <span className="relative inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow-soft)] px-6 py-3 text-sm font-medium text-[var(--accent)]">
+                  {t.etecnotes.loadPreview}
+                </span>
+
+                <span className="relative font-mono text-[10px] text-[var(--text-3)]">
+                  etecnotes.com.br
+                </span>
+              </button>
+            )}
           </div>
         </div>
 
