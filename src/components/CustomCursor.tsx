@@ -16,11 +16,6 @@ export function CustomCursor() {
     const isTouch = matchMedia("(hover: none) and (pointer: coarse)").matches;
     if (mq.matches || isTouch) return;
 
-    document.documentElement.style.cursor = "none";
-    const style = document.createElement("style");
-    style.textContent = `*{cursor:none!important}`;
-    document.head.appendChild(style);
-
     let raf: number;
     let visible = false;
 
@@ -85,8 +80,6 @@ export function CustomCursor() {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
-      document.documentElement.style.cursor = "";
-      style.remove();
     };
   }, []);
 

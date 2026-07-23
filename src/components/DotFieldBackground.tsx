@@ -1,5 +1,6 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import DotField from "./DotField";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -29,14 +30,41 @@ function dotColorForTheme(theme: string) {
   return readAccentGlow();
 }
 
+function subscribeMediaQuery(query: string) {
+  return (callback: () => void) => {
+    const mq = window.matchMedia(query);
+    mq.addEventListener("change", callback);
+    return () => mq.removeEventListener("change", callback);
+  };
+}
+
+const subscribeReducedMotion = subscribeMediaQuery("(prefers-reduced-motion: reduce)");
+const getReducedMotionSnapshot = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const subscribeCoarsePointer = subscribeMediaQuery("(pointer: coarse)");
+const getCoarsePointerSnapshot = () => window.matchMedia("(pointer: coarse)").matches;
+
+const getServerSnapshotFalse = () => false;
+
 export default function DotFieldBackground() {
   const { theme } = useTheme();
 
-  // Componente e montado apenas no cliente (dynamic import com ssr:false),
-  // entao podemos derivar direto de window/DOM sem efeitos nem estado.
-  const isMobile =
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer: coarse)").matches;
+  // useSyncExternalStore evita mismatch de hidratacao (servidor usa o
+  // snapshot falso) e ja re-renderiza sozinho se o usuario mudar a
+  // preferencia de reduced-motion em tempo real.
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getServerSnapshotFalse
+  );
+  const isMobile = useSyncExternalStore(
+    subscribeCoarsePointer,
+    getCoarsePointerSnapshot,
+    getServerSnapshotFalse
+  );
+
+  if (prefersReducedMotion) return null;
+
   const cfg = isMobile ? DOT_CONFIG.mobile : DOT_CONFIG.desktop;
   const { r, g, b } = dotColorForTheme(theme);
 
