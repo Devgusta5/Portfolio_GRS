@@ -12,22 +12,10 @@ const STATUS_COLORS: Record<string, string> = {
   Concept: "bg-violet-500",
 };
 
-const REPO_URLS: Record<string, string> = {
-  "Scriptum-Library": "https://github.com/Scriptum-Hackaton/Scriptum-Library",
-  "BeautyHub": "https://github.com/Otavio-Emanoel/BeautyHub",
-  "Pintoo": "https://github.com/Devgusta5/Pintoo-",
-};
-
-export function ProjectCard({
-  project,
-  index = 0,
-}: {
-  project: Project;
-  index?: number;
-}) {
+export function ProjectCard({ project }: { project: Project }) {
   const { t } = useLanguage();
   const dot = project.status ? STATUS_COLORS[project.status] ?? "bg-zinc-400" : null;
-  const repoUrl = project.repoUrl || REPO_URLS[project.name] || "#";
+  const repoUrl = project.repoUrl || "#";
 
   return (
     <SpotlightCard as="article" className="group flex h-full min-h-[340px] flex-col p-0">

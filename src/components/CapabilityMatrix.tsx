@@ -135,7 +135,8 @@ function RadarChart({
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                isSelected ? onBack() : onSelect(axis.key);
+                if (isSelected) onBack();
+                else onSelect(axis.key);
               }
             }}
             role="button"
@@ -182,7 +183,7 @@ function RadarChart({
               textAnchor="middle"
               dominantBaseline="middle"
               fill={isSelected ? "var(--accent)" : "var(--text-2)"}
-              fontSize={isSelected ? "4.5" : "4"}
+              fontSize={isSelected ? "5" : "4.5"}
               fontWeight={isSelected ? "700" : "500"}
               className="transition-colors duration-300"
             >

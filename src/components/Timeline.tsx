@@ -1,4 +1,3 @@
-import { TIMELINE } from "@/data/timeline";
 import { TrophyIcon, BookIcon } from "./icons/TrophyIcon";
 import { GraduationIcon, BriefcaseIcon, CodeIcon } from "./icons/MiscIcons";
 import { Reveal } from "./Reveal";

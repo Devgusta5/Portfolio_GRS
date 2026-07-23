@@ -38,7 +38,7 @@ export function ProjectsGrid() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((project, index) => (
             <Reveal key={project.name} delay={index * 80}>
-              <ProjectCard project={project} index={index} />
+              <ProjectCard project={project} />
             </Reveal>
           ))}
         </div>

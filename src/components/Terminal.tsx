@@ -159,7 +159,7 @@ export function Terminal() {
         }
         break;
       }
-      case "etecnotes":
+      case "etecnotes": {
         const section = document.getElementById("etecnotes");
         if (section) {
           section.scrollIntoView({ behavior: "smooth" });
@@ -168,6 +168,7 @@ export function Terminal() {
           addOutput("error", "Secao 'etecnotes' nao encontrada.");
         }
         break;
+      }
       default:
         addOutput(
           "error",

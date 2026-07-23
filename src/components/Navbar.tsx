@@ -16,7 +16,7 @@ import {
   Palette,
 } from 'lucide-react';
 
-function GithubIcon({ size, fill: _f }: { size?: number; fill?: string }) {
+function GithubIcon({ size }: { size?: number; fill?: string }) {
   const s = size ?? 18;
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}>
@@ -25,7 +25,7 @@ function GithubIcon({ size, fill: _f }: { size?: number; fill?: string }) {
   );
 }
 
-function InstagramIcon({ size, fill: _f }: { size?: number; fill?: string }) {
+function InstagramIcon({ size }: { size?: number; fill?: string }) {
   const s = size ?? 18;
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}>
@@ -34,7 +34,7 @@ function InstagramIcon({ size, fill: _f }: { size?: number; fill?: string }) {
   );
 }
 
-function LinkedinIcon({ size, fill: _f }: { size?: number; fill?: string }) {
+function LinkedinIcon({ size }: { size?: number; fill?: string }) {
   const s = size ?? 18;
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}>
@@ -43,7 +43,7 @@ function LinkedinIcon({ size, fill: _f }: { size?: number; fill?: string }) {
   );
 }
 
-function MailIcon({ size, fill: _f }: { size?: number; fill?: string }) {
+function MailIcon({ size }: { size?: number; fill?: string }) {
   const s = size ?? 18;
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width={s} height={s}>
@@ -248,7 +248,6 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const current = THEMES.find((t) => t.id === theme) ?? THEMES[0];
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -464,7 +463,7 @@ export function Navbar() {
 
           <div className="relative flex items-center gap-1.5">
             <SocialPopover mobile />
-            {NAV_LINKS.map((link, i) => {
+            {NAV_LINKS.map((link) => {
               const Icon = link.icon;
               const isActive = activeSection === link.href;
               return (
