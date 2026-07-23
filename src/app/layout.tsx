@@ -5,10 +5,39 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeInitScript } from "@/components/ThemeInitScript";
 import { CustomCursor } from "@/components/CustomCursor";
 
+const SITE_URL = "https://gustavorodrigues.vercel.app";
+const TITLE = "Gustavo Rodrigues - Desenvolvedor Full Stack";
+const DESCRIPTION =
+  "Portfolio de Gustavo Rodrigues, Desenvolvedor Full Stack focado em arquiteturas escalaveis, React, Next.js, Node.js e mobile.";
+
 export const metadata: Metadata = {
-  title: "Gustavo Rodrigues - Desenvolvedor Full Stack",
-  description:
-    "Portfolio de Gustavo Rodrigues, Desenvolvedor Full Stack focado em arquiteturas escalaveis, React, Next.js, Node.js e mobile.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: [
+    "Gustavo Rodrigues",
+    "Full Stack Developer",
+    "React",
+    "Next.js",
+    "Node.js",
+    "TypeScript",
+    "Portfolio",
+  ],
+  authors: [{ name: "Gustavo Rodrigues" }],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Gustavo Rodrigues",
+    title: TITLE,
+    description: DESCRIPTION,
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
