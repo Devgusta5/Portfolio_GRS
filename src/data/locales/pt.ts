@@ -51,7 +51,7 @@ const pt: Translations = {
     users: "Usuarios Cadastrados",
     repo: "Ver repositorio",
     live: "Acessar Sistema na web",
-    loadPreview: "Carregar preview ao vivo",
+    loadPreview: "Abrir EtecNotes ao vivo",
   },
   projetos: {
     label: "Side quests / product labs",
@@ -105,6 +105,9 @@ const pt: Translations = {
     title: "last commits",
     error: "Erro ao carregar atividade.",
     empty: "Nenhum commit recente.",
+  },
+  boot: {
+    skip: "Pular",
   },
 };
 

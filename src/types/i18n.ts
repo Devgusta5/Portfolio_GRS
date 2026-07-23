@@ -96,4 +96,7 @@ export type Translations = {
     error: string;
     empty: string;
   };
+  boot: {
+    skip: string;
+  };
 };

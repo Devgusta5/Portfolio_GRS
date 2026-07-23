@@ -76,7 +76,6 @@ export function EtecNotesShowcase() {
                 className="h-full w-full"
                 style={{ border: "none" }}
                 loading="lazy"
-                sandbox="allow-scripts allow-same-origin"
               />
             ) : (
               <button

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const BOOT_LINES = [
   { text: "> GRS.OS v3.2.1", delay: 400 },
@@ -10,30 +11,31 @@ const BOOT_LINES = [
   { text: "> System ready.", delay: 2400 },
 ];
 
-
-
 export function BootLoader({ onFinish }: { onFinish: () => void }) {
+  const { t } = useLanguage();
   const [visibleLines, setVisibleLines] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const finishedRef = useRef(false);
 
+  const finish = useCallback(() => {
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+    onFinish();
+  }, [onFinish]);
+
+  // Botao "pular": faz o fade e finaliza logo em seguida.
+  const skip = useCallback(() => {
+    setFadeOut(true);
+    window.setTimeout(finish, 450);
+  }, [finish]);
+
   useEffect(() => {
-    const finish = () => {
-      if (finishedRef.current) return;
-      finishedRef.current = true;
-      try { sessionStorage.setItem("grs-booted", "1"); } catch {}
-      onFinish();
-    };
-
-    let alreadyBooted = false;
-    try { alreadyBooted = sessionStorage.getItem("grs-booted") === "1"; } catch {}
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Ja viu o boot nesta sessao (ou prefere menos movimento): pula a animacao.
-    if (alreadyBooted || prefersReduced) {
-      const t = setTimeout(finish, alreadyBooted ? 0 : 500);
+    // Acessibilidade: quem prefere menos movimento nao ve a animacao.
+    if (prefersReduced) {
+      const t = setTimeout(finish, 500);
       return () => clearTimeout(t);
     }
 
@@ -64,7 +66,7 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
       timers.forEach(clearTimeout);
       clearInterval(cursorInterval);
     };
-  }, [onFinish]);
+  }, [finish]);
 
   return (
     <div
@@ -109,6 +111,16 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
           </div>
         )}
       </div>
+
+      {/* Pular animacao — canto inferior direito */}
+      <button
+        type="button"
+        onClick={skip}
+        className="group fixed bottom-5 right-5 z-[101] inline-flex items-center gap-2 rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/60 px-4 py-2 font-mono text-xs text-[var(--text-3)] backdrop-blur-sm transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+      >
+        {t.boot.skip}
+        <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">▸▸</span>
+      </button>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, memo, useId } from 'react';
 
 const TWO_PI = Math.PI * 2;
 
@@ -56,7 +56,8 @@ const DotField = memo(({
   const propsRef = useRef<Record<string, unknown>>({});
   propsRef.current = { dotRadius, dotSpacing, cursorRadius, cursorForce, bulgeOnly, bulgeStrength, sparkle, waveAmplitude, gradientFrom, gradientTo };
   const rebuildRef = useRef<(() => void) | null>(null);
-  const glowIdRef = useRef(`dot-field-glow-${Math.random().toString(36).slice(2, 9)}`);
+  // useId em vez de Math.random para o id ser estavel entre server e cliente.
+  const glowId = `dot-field-glow-${useId().replace(/:/g, '')}`;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -235,6 +236,11 @@ const DotField = memo(({
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
 
+    // Reconstroi os pontos assim que o container ganha tamanho (evita o campo
+    // "nao carregar" quando o layout ainda nao esta pronto no primeiro mount).
+    const ro = new ResizeObserver(() => doResize());
+    if (canvas.parentElement) ro.observe(canvas.parentElement);
+
     // Orcamento de animacao: so mantem o RAF ativo quando o campo esta
     // visivel na viewport E a aba esta em foco. Isso pausa (nao remove) a
     // animacao quando o Hero sai da tela ou o usuario troca de aba.
@@ -275,6 +281,7 @@ const DotField = memo(({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       clearInterval(speedInterval);
       clearTimeout(resizeTimer);
+      ro.disconnect();
       io.disconnect();
       document.removeEventListener('visibilitychange', sync);
       window.removeEventListener('resize', resize);
@@ -308,7 +315,7 @@ const DotField = memo(({
         }}
       >
         <defs>
-          <radialGradient id={glowIdRef.current}>
+          <radialGradient id={glowId}>
             <stop offset="0%" stopColor={glowColor} />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
@@ -318,7 +325,7 @@ const DotField = memo(({
           cx="-9999"
           cy="-9999"
           r={glowRadius}
-          fill={`url(#${glowIdRef.current})`}
+          fill={`url(#${glowId})`}
           style={{ opacity: 0, willChange: 'opacity' }}
         />
       </svg>

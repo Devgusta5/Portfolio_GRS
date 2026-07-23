@@ -1,11 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { Terminal } from "@/components/Terminal";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useLanguage } from "@/context/LanguageContext";
-
-const DotFieldBackground = dynamic(() => import("./DotFieldBackground"), { ssr: false });
+import DotFieldBackground from "./DotFieldBackground";
 
 export function Hero() {
   const { t } = useLanguage();

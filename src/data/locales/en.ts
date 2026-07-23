@@ -51,7 +51,7 @@ const en: Translations = {
     users: "Registered Users",
     repo: "View repository",
     live: "Access System on Web",
-    loadPreview: "Load live preview",
+    loadPreview: "Open EtecNotes live",
   },
   projetos: {
     label: "Side quests / product labs",
@@ -105,6 +105,9 @@ const en: Translations = {
     title: "last commits",
     error: "Failed to load activity.",
     empty: "No recent commits.",
+  },
+  boot: {
+    skip: "Skip",
   },
 };
 
