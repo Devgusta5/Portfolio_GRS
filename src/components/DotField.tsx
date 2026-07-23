@@ -234,7 +234,37 @@ const DotField = memo(({
     doResize();
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
-    rafRef.current = requestAnimationFrame(tick);
+
+    // Orcamento de animacao: so mantem o RAF ativo quando o campo esta
+    // visivel na viewport E a aba esta em foco. Isso pausa (nao remove) a
+    // animacao quando o Hero sai da tela ou o usuario troca de aba.
+    let isIntersecting = true;
+    function start() {
+      if (rafRef.current == null) rafRef.current = requestAnimationFrame(tick);
+    }
+    function stop() {
+      if (rafRef.current != null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    }
+    function sync() {
+      if (isIntersecting && !document.hidden) start();
+      else stop();
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0 }
+    );
+    const host = canvas.parentElement;
+    if (host) io.observe(host);
+    document.addEventListener('visibilitychange', sync);
+
+    start();
 
     rebuildRef.current = () => {
       const { w, h } = sizeRef.current;
@@ -245,6 +275,8 @@ const DotField = memo(({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       clearInterval(speedInterval);
       clearTimeout(resizeTimer);
+      io.disconnect();
+      document.removeEventListener('visibilitychange', sync);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
     };
