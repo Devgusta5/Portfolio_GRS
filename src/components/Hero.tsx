@@ -34,7 +34,7 @@ export function Hero() {
             </span>
             {t.hero.status_open}
           </span>
-          <div className="hidden rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/60 px-4 py-1.5 backdrop-blur-md sm:block">
+          <div className="rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/60 px-3 py-1.5 backdrop-blur-md sm:px-4">
             <VisitorCounter />
           </div>
         </div>

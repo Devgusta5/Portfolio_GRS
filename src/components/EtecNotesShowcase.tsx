@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { ETECNOTES } from "@/data/etecnotes";
 import { ShinyText } from "./ShinyText";
 import { ExternalLinkIcon } from "./icons/MiscIcons";
@@ -9,6 +10,17 @@ import { useLanguage } from "@/context/LanguageContext";
 export function EtecNotesShowcase() {
   const { t } = useLanguage();
   const [previewLoaded, setPreviewLoaded] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  const boxRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: boxRef,
+    offset: ["start 0.85", "start 0.4"],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.94, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
+  const boxMotionStyle = shouldReduceMotion ? undefined : { opacity, scale, y };
 
   return (
     <section
@@ -52,7 +64,11 @@ export function EtecNotesShowcase() {
           </div>
         </div>
 
-        <div className="mt-28 overflow-hidden rounded-2xl border border-[var(--border-2)] bg-[var(--bg-2)] shadow-xl">
+        <motion.div
+          ref={boxRef}
+          style={boxMotionStyle}
+          className="mt-28 overflow-hidden rounded-2xl border border-[var(--border-2)] bg-[var(--bg-2)] shadow-xl"
+        >
           <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--card-bg)] px-8 py-5">
             <div className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-red-500" />
@@ -119,7 +135,7 @@ export function EtecNotesShowcase() {
               </button>
             )}
           </div>
-        </div>
+        </motion.div>
 
         <div className="mt-20 flex flex-wrap items-center justify-center gap-6">
           <a
