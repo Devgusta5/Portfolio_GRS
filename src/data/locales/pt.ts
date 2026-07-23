@@ -14,7 +14,7 @@ const pt: Translations = {
     status_open: "Open to Work",
     status_freelance: "Open to Freelance",
     cta_projects: "Ver EtecNotes",
-    cta_resume: "Visualizar",
+    cta_resume: "Visualizar currículo",
   },
   about: {
     label: "Sobre / Capability Matrix",
