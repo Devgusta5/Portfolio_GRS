@@ -42,6 +42,7 @@ export type Translations = {
     users: string;
     repo: string;
     live: string;
+    loadPreview: string;
   };
   projetos: {
     label: string;
