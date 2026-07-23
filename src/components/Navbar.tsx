@@ -342,18 +342,6 @@ function ThemeDot({ mobile }: { mobile?: boolean }) {
   );
 }
 
-function BetaBadge() {
-  return (
-    <div className="fixed right-2 top-2 z-[60] flex items-center gap-1.5 rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/80 px-2.5 py-1 shadow-lg backdrop-blur-sm">
-      <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-beta-pulse rounded-full bg-[var(--accent)] opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" />
-      </span>
-      <span className="text-[10px] font-mono text-[var(--text-3)]">Beta</span>
-    </div>
-  );
-}
-
 export function Navbar() {
   const NAV_LINKS = useNavLinks();
   const [activeSection, setActiveSection] = useState('#top');
@@ -417,7 +405,6 @@ export function Navbar() {
 
   return (
     <>
-      <BetaBadge />
       {/* Floating glass sidebar — desktop */}
       <aside
         onMouseEnter={() => setSidebarHovered(true)}

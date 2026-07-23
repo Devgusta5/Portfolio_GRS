@@ -13,7 +13,7 @@ export function EtecNotesShowcase() {
   return (
     <section
       id="etecnotes"
-      className="relative overflow-hidden px-6 py-52 sm:px-8 sm:py-64 md:py-80"
+      className="relative overflow-hidden px-6 py-24 sm:px-8 sm:py-32 md:py-40"
     >
       <div className="absolute inset-x-0 top-20 mx-auto h-96 max-w-5xl rounded-full bg-[var(--accent-glow)] opacity-70 blur-[120px]" />
 

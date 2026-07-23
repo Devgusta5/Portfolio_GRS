@@ -4,11 +4,11 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const BOOT_LINES = [
-  { text: "> GRS.OS v3.2.1", delay: 400 },
-  { text: "> Initializing kernel modules...", delay: 900 },
-  { text: "> Loading portfolio system...", delay: 1400 },
-  { text: "> Rendering interfaces...", delay: 1900 },
-  { text: "> System ready.", delay: 2400 },
+  { text: "> GRS.OS v3.2.1", delay: 150 },
+  { text: "> Initializing kernel modules...", delay: 380 },
+  { text: "> Loading portfolio system...", delay: 610 },
+  { text: "> Rendering interfaces...", delay: 840 },
+  { text: "> System ready.", delay: 1070 },
 ];
 
 export function BootLoader({ onFinish }: { onFinish: () => void }) {
@@ -49,9 +49,9 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
           if (i === BOOT_LINES.length - 1) {
             const t1 = setTimeout(() => {
               setFadeOut(true);
-              const t2 = setTimeout(finish, 600);
+              const t2 = setTimeout(finish, 400);
               timers.push(t2);
-            }, 600);
+            }, 350);
             timers.push(t1);
           }
         }, line.delay)
@@ -70,7 +70,7 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[var(--bg)] transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[var(--bg)] transition-opacity duration-[400ms] ${
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
