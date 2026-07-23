@@ -5,7 +5,7 @@ export const PROJECTS: Project[] = [
     name: "DailyFlow",
     description:
       "App de produtividade com rotina base que se adapta a dias especificos, tarefas e compromissos.",
-    tags: ["Flutter", "Go", "PostgreSQL"],
+    tags: ["Flutter", "Go", "PostgreSQL", "Docker", "Render"],
     repoUrl: "https://github.com/Devgusta5/DailyFlow",
     featured: true,
     angle: "mobile productivity",

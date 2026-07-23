@@ -13,12 +13,14 @@ export const SKILLS: Skill[] = [
 
   { name: "Node.js", category: "backend" },
   { name: "Express", category: "backend" },
+  { name: "Go", category: "backend" },
   { name: ".NET", category: "backend" },
 
   { name: "Flutter", category: "mobile" },
   { name: "Android Studio", category: "mobile" },
   { name: "Expo / React Native", category: "mobile" },
 
+  { name: "PostgreSQL", category: "database" },
   { name: "MySQL", category: "database" },
   { name: "MongoDB", category: "database" },
   { name: "Firebase", category: "database" },
@@ -26,6 +28,9 @@ export const SKILLS: Skill[] = [
 ];
 
 export const CLOUD_TOOLS: CloudTool[] = [
+  { name: "Docker" },
+  { name: "Render" },
+  { name: "Neon" },
   { name: "Vercel" },
   { name: "Azure" },
   { name: "Git" },
