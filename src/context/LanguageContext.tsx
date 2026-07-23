@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Lang, Translations } from "@/types/i18n";
 import pt from "@/data/locales/pt";
 import en from "@/data/locales/en";
 import es from "@/data/locales/es";
 
 const LANG_MAP: Record<Lang, Translations> = { pt, en, es };
+const HTML_LANG: Record<Lang, string> = { pt: "pt-BR", en: "en", es: "es" };
 const STORAGE_KEY = "grs-portfolio-lang";
 
 interface LanguageContextValue {
@@ -23,6 +24,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const saved = window.localStorage.getItem(STORAGE_KEY) as Lang | null;
     return saved ?? "pt";
   });
+
+  useEffect(() => {
+    document.documentElement.lang = HTML_LANG[lang];
+  }, [lang]);
 
   function setLang(next: Lang) {
     setLangState(next);

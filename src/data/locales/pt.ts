@@ -61,12 +61,13 @@ const pt: Translations = {
     more: "more builds",
     view: "Ver ao vivo",
     items: [
+      { name: "DailyFlow", description: "Rotina base que se adapta a dias especificos, com tarefas e compromissos.", impact: "Planeje uma vez, adapte cada dia", angle: "mobile productivity", signal: "rotina -> dia adaptado -> sync", repoUrl: "https://github.com/Devgusta5/DailyFlow" },
       { name: "Scriptum-Library", description: "Busque livros por imagem em tempo real com visao computacional.", impact: "Transforme fotos em catalogo digital", angle: "computer vision", signal: "camera -> search -> catalog", repoUrl: "https://github.com/Scriptum-Hackaton/Scriptum-Library" },
       { name: "BeautyHub", description: "Conecte clientes a profissionais de beleza com agenda inteligente.", impact: "Agende servicos em segundos", angle: "marketplace SaaS", signal: "profile -> schedule -> conversion", repoUrl: "https://github.com/Otavio-Emanoel/BeautyHub" },
       { name: "Pintoo", description: "Ferramentas criativas de desenho no navegador com exportacao nativa.", impact: "Desenhe, crie e exporte", angle: "creative tool", signal: "pointer -> canvas -> export", repoUrl: "https://github.com/Devgusta5/Pintoo-" },
     ],
     quick: [
-      { name: "CoreFlow-OG", description: "Organizador de treino em React Native.", url: "https://github.com/Devgusta5/CoreFlow-OG" },
+      { name: "CoreFlow-V1", description: "Organizador de treino em React Native.", url: "https://github.com/Devgusta5/CoreFlow-V1" },
       { name: "Enem-Gate-Escape", description: "Jogo educacional gamificado baseado em questoes do ENEM.", url: "https://github.com/Devgusta5/Enem-Gate-Escape" },
       { name: "NeuroStore", description: "Loja conceitual com recomendacao de produtos orientada a dados.", url: "https://github.com/Devgusta5/NeuroStore" },
       { name: "InstitutoAmar", description: "Site institucional para ONG, com foco em acessibilidade e doacoes.", url: "https://github.com/Devgusta5/Instituto-Amar" },

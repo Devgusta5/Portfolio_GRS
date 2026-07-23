@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# artefatos locais / material de trabalho (nao versionar)
+/melhorias/
+ascii-art*.html
+/Curriculo_*.pdf
+/Curriculo_*.docx
+/Gustavo_Rodrigues.pdf

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import DotField from "./DotField";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -32,19 +31,14 @@ function dotColorForTheme(theme: string) {
 
 export default function DotFieldBackground() {
   const { theme } = useTheme();
-  const [rgb, setRgb] = useState(() => dotColorForTheme(theme));
-  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    setIsMobile(window.matchMedia("(pointer: coarse)").matches);
-  }, []);
-
-  useEffect(() => {
-    setRgb(dotColorForTheme(theme));
-  }, [theme]);
-
+  // Componente e montado apenas no cliente (dynamic import com ssr:false),
+  // entao podemos derivar direto de window/DOM sem efeitos nem estado.
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches;
   const cfg = isMobile ? DOT_CONFIG.mobile : DOT_CONFIG.desktop;
-  const { r, g, b } = rgb;
+  const { r, g, b } = dotColorForTheme(theme);
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">

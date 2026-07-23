@@ -2,6 +2,18 @@ import type { Project } from "@/types";
 
 export const PROJECTS: Project[] = [
   {
+    name: "DailyFlow",
+    description:
+      "App de produtividade com rotina base que se adapta a dias especificos, tarefas e compromissos.",
+    tags: ["Flutter", "Go", "PostgreSQL"],
+    repoUrl: "https://github.com/Devgusta5/DailyFlow",
+    featured: true,
+    angle: "mobile productivity",
+    signal: "rotina -> dia adaptado -> sync",
+    status: "MVP",
+    impact: "Planeje uma vez, adapte cada dia",
+  },
+  {
     name: "Scriptum-Library",
     description:
       "Biblioteca virtual com visao computacional para busca de livros em tempo real usando reconhecimento de imagem.",
@@ -38,10 +50,10 @@ export const PROJECTS: Project[] = [
     impact: "Desenhe, crie e exporte sem sair do navegador",
   },
   {
-    name: "CoreFlow-OG",
-    description: "Gerenciador de fluxos de trabalho para equipes de desenvolvimento.",
-    tags: ["React", "Node.js"],
-    repoUrl: "https://github.com/Devgusta5/CoreFlow-OG",
+    name: "CoreFlow-V1",
+    description: "Organizador de treino em React Native.",
+    tags: ["React Native", "TypeScript"],
+    repoUrl: "https://github.com/Devgusta5/CoreFlow-V1",
     featured: false,
   },
   {

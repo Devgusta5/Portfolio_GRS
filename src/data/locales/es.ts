@@ -61,12 +61,13 @@ const es: Translations = {
     more: "más builds",
     view: "Ver en vivo",
     items: [
+      { name: "DailyFlow", description: "Una rutina base que se adapta a días específicos, con tareas y compromisos.", impact: "Planifica una vez, adapta cada día", angle: "mobile productivity", signal: "rutina -> día adaptado -> sync", repoUrl: "https://github.com/Devgusta5/DailyFlow" },
       { name: "Scriptum-Library", description: "Busca libros por imagen en tiempo real con visión computacional.", impact: "Convierte fotos en catálogo digital", angle: "computer vision", signal: "camera -> search -> catalog", repoUrl: "https://github.com/Scriptum-Hackaton/Scriptum-Library" },
       { name: "BeautyHub", description: "Conecta clientes con profesionales de belleza con agenda inteligente.", impact: "Agenda servicios en segundos", angle: "marketplace SaaS", signal: "profile -> schedule -> conversion", repoUrl: "https://github.com/Otavio-Emanoel/BeautyHub" },
       { name: "Pintoo", description: "Herramientas creativas de dibujo en el navegador con exportación nativa.", impact: "Dibuja, crea y exporta", angle: "creative tool", signal: "pointer -> canvas -> export", repoUrl: "https://github.com/Devgusta5/Pintoo-" },
     ],
     quick: [
-      { name: "CoreFlow-OG", description: "Organizador de entrenamiento en React Native.", url: "https://github.com/Devgusta5/CoreFlow-OG" },
+      { name: "CoreFlow-V1", description: "Organizador de entrenamiento en React Native.", url: "https://github.com/Devgusta5/CoreFlow-V1" },
       { name: "Enem-Gate-Escape", description: "Juego educativo gamificado basado en preguntas del ENEM.", url: "https://github.com/Devgusta5/Enem-Gate-Escape" },
       { name: "NeuroStore", description: "Tienda conceptual con recomendación de productos orientada a datos.", url: "https://github.com/Devgusta5/NeuroStore" },
       { name: "InstitutoAmar", description: "Sitio web institucional para ONG, con enfoque en accesibilidad y donaciones.", url: "https://github.com/Devgusta5/Instituto-Amar" },

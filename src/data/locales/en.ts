@@ -61,12 +61,13 @@ const en: Translations = {
     more: "more builds",
     view: "View live",
     items: [
+      { name: "DailyFlow", description: "A base routine that adapts to specific days, with tasks and events.", impact: "Plan once, adapt every day", angle: "mobile productivity", signal: "routine -> adapted day -> sync", repoUrl: "https://github.com/Devgusta5/DailyFlow" },
       { name: "Scriptum-Library", description: "Search books by image in real time using computer vision.", impact: "Turn photos into a digital catalog", angle: "computer vision", signal: "camera -> search -> catalog", repoUrl: "https://github.com/Scriptum-Hackaton/Scriptum-Library" },
       { name: "BeautyHub", description: "Connect clients to beauty professionals with smart scheduling.", impact: "Book services in seconds", angle: "marketplace SaaS", signal: "profile -> schedule -> conversion", repoUrl: "https://github.com/Otavio-Emanoel/BeautyHub" },
       { name: "Pintoo", description: "Creative drawing tools in the browser with native export.", impact: "Draw, create, and export", angle: "creative tool", signal: "pointer -> canvas -> export", repoUrl: "https://github.com/Devgusta5/Pintoo-" },
     ],
     quick: [
-      { name: "CoreFlow-OG", description: "Workout organizer built with React Native.", url: "https://github.com/Devgusta5/CoreFlow-OG" },
+      { name: "CoreFlow-V1", description: "Workout organizer built with React Native.", url: "https://github.com/Devgusta5/CoreFlow-V1" },
       { name: "Enem-Gate-Escape", description: "Gamified educational quiz game based on ENEM questions.", url: "https://github.com/Devgusta5/Enem-Gate-Escape" },
       { name: "NeuroStore", description: "Concept store with data-driven product recommendations.", url: "https://github.com/Devgusta5/NeuroStore" },
       { name: "InstitutoAmar", description: "NGO institutional website focused on accessibility and donations.", url: "https://github.com/Devgusta5/Instituto-Amar" },

@@ -19,16 +19,23 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
   const finishedRef = useRef(false);
 
   useEffect(() => {
+    const finish = () => {
+      if (finishedRef.current) return;
+      finishedRef.current = true;
+      try { sessionStorage.setItem("grs-booted", "1"); } catch {}
+      onFinish();
+    };
+
+    let alreadyBooted = false;
+    try { alreadyBooted = sessionStorage.getItem("grs-booted") === "1"; } catch {}
+
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (prefersReduced) {
-      setFadeOut(true);
-      const t = setTimeout(() => { finishedRef.current = true; onFinish(); }, 500);
+    // Ja viu o boot nesta sessao (ou prefere menos movimento): pula a animacao.
+    if (alreadyBooted || prefersReduced) {
+      const t = setTimeout(finish, alreadyBooted ? 0 : 500);
       return () => clearTimeout(t);
     }
-
-    setVisibleLines(0);
-    setShowCursor(true);
 
     const timers: ReturnType<typeof setTimeout>[] = [];
 
@@ -40,12 +47,7 @@ export function BootLoader({ onFinish }: { onFinish: () => void }) {
           if (i === BOOT_LINES.length - 1) {
             const t1 = setTimeout(() => {
               setFadeOut(true);
-              const t2 = setTimeout(() => {
-                if (!finishedRef.current) {
-                  finishedRef.current = true;
-                  onFinish();
-                }
-              }, 600);
+              const t2 = setTimeout(finish, 600);
               timers.push(t2);
             }, 600);
             timers.push(t1);
