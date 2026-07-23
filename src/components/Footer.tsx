@@ -2,6 +2,7 @@ import { SOCIAL_LINKS } from "@/data/github";
 import { MagneticButton } from "./MagneticButton";
 import { GithubIcon } from "./icons/GithubIcon";
 import { LinkedinIcon } from "./icons/LinkedinIcon";
+import { VisitorCounter } from "./VisitorCounter";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
@@ -48,9 +49,12 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-[var(--text-3)]">
-            (c) {new Date().getFullYear()} - Gustavo Rodrigues - {t.footer.built}
-          </p>
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <p className="text-xs text-[var(--text-3)]">
+              (c) {new Date().getFullYear()} - Gustavo Rodrigues - {t.footer.built}
+            </p>
+            <VisitorCounter />
+          </div>
           <div className="flex gap-5">
             {SOCIAL_LINKS.map((link) => (
               <a

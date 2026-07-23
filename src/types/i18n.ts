@@ -84,6 +84,7 @@ export type Translations = {
     linkedin: string;
     contato: string;
     built: string;
+    visitors: string;
   };
   resume: {
     title: string;

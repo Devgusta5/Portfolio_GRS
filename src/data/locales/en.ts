@@ -94,6 +94,7 @@ const en: Translations = {
     linkedin: "LinkedIn",
     contato: "Contact",
     built: "Built with Next.js and Tailwind CSS",
+    visitors: "visitors",
   },
   resume: {
     title: "Resume",

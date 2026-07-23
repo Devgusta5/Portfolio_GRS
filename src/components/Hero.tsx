@@ -2,6 +2,7 @@
 
 import { Terminal } from "@/components/Terminal";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { VisitorCounter } from "./VisitorCounter";
 import { useLanguage } from "@/context/LanguageContext";
 import DotFieldBackground from "./DotFieldBackground";
 
@@ -21,15 +22,20 @@ export function Hero() {
       {/* DotField animated dots */}
       <DotFieldBackground />
 
-      {/* Top bar: badge + language */}
+      {/* Top bar: badges + language */}
       <div className="absolute left-0 right-0 top-6 z-20 mx-auto flex w-full max-w-7xl items-center justify-between px-6 sm:px-8">
-        <span className="hidden items-center gap-2.5 rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/60 px-4 py-1.5 text-sm font-semibold text-[var(--text-2)] backdrop-blur-md sm:inline-flex">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+        <div className="flex items-center gap-3 sm:gap-4">
+          <span className="hidden items-center gap-2.5 rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/60 px-4 py-1.5 text-sm font-semibold text-[var(--text-2)] backdrop-blur-md sm:inline-flex">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            </span>
+            {t.hero.status_open}
           </span>
-          {t.hero.status_open}
-        </span>
+          <div className="hidden rounded-full border border-[var(--border-2)] bg-[var(--bg-2)]/60 px-4 py-1.5 backdrop-blur-md sm:block">
+            <VisitorCounter />
+          </div>
+        </div>
         <LanguageSwitcher />
       </div>
 
