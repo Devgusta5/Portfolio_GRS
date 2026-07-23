@@ -1,12 +1,44 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { SpotlightCard } from "./SpotlightCard";
 import { GithubIcon } from "./icons/GithubIcon";
 import { StarIcon } from "./icons/MiscIcons";
 import { REPOS, GITHUB_USERNAME } from "@/data/github";
+import type { RepoSummary } from "@/app/api/github/repos/route";
 import { RecentActivity } from "./RecentActivity";
 import { useLanguage } from "@/context/LanguageContext";
 
+// Fallback exibido enquanto a API carrega ou se ela falhar (dados honestos).
+const FALLBACK: RepoSummary[] = REPOS.map((r) => ({
+  name: r.name,
+  description: r.description,
+  stars: r.stars,
+  language: null,
+  url: `https://github.com/${GITHUB_USERNAME}/${r.name}`,
+}));
+
 export function GithubCard() {
   const { t } = useLanguage();
+  const [repos, setRepos] = useState<RepoSummary[]>(FALLBACK);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/github/repos")
+      .then((res) => {
+        if (!res.ok) throw new Error("API error");
+        return res.json();
+      })
+      .then((data: RepoSummary[]) => {
+        if (active && Array.isArray(data) && data.length > 0) setRepos(data);
+      })
+      .catch(() => {
+        /* mantem o fallback estatico */
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <SpotlightCard className="lg:col-span-1 lg:row-span-2">
@@ -26,23 +58,35 @@ export function GithubCard() {
         <RecentActivity />
 
         <ul className="mt-3 flex-1 space-y-2">
-          {REPOS.slice(0, 3).map((repo) => (
-            <li
-              key={repo.name}
-              className="rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 p-2.5 transition-colors hover:border-[var(--border-2)]"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <p className="truncate text-xs font-medium text-[var(--text)]">
-                  {repo.name}
-                </p>
-                <span className="flex shrink-0 items-center gap-1 text-[10px] text-[var(--text-3)]">
-                  <StarIcon size={10} />
-                  {repo.stars}
-                </span>
-              </div>
-              <p className="mt-0.5 truncate text-[11px] text-[var(--text-2)]">
-                {repo.description}
-              </p>
+          {repos.slice(0, 3).map((repo) => (
+            <li key={repo.name}>
+              <a
+                href={repo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 p-2.5 transition-colors hover:border-[var(--border-2)]"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <p className="truncate text-xs font-medium text-[var(--text)]">
+                    {repo.name}
+                  </p>
+                  <span className="flex shrink-0 items-center gap-1 text-[10px] text-[var(--text-3)]">
+                    {repo.stars > 0 ? (
+                      <>
+                        <StarIcon size={10} />
+                        {repo.stars}
+                      </>
+                    ) : (
+                      repo.language
+                    )}
+                  </span>
+                </div>
+                {repo.description && (
+                  <p className="mt-0.5 truncate text-[11px] text-[var(--text-2)]">
+                    {repo.description}
+                  </p>
+                )}
+              </a>
             </li>
           ))}
         </ul>
